@@ -1,0 +1,70 @@
+---
+title: "Introducción a la estadística inferencial"
+description: |
+  Página del curso en su versión 2022
+author: 
+  - name: Simoneta Negrete Yankelevich
+    url: https://www.researchgate.net/profile/Simoneta-Negrete-Yankelevich 
+    affiliation: Red de ecología Funcional - INECOL
+    affiliation_url: https://www.inecol.mx/personal/index.php/funcional/90-simoneta-negrete-yanquelevich
+    orcid_id: 0000-0002-4429-6662
+  - name: Carlos Cultid Medina
+    url: https://www.researchgate.net/profile/Carlos-Cultid-Medina
+    affiliation: Red de Diversidad Biológica del Occidente Mexicano - INECOL
+    affiliation_url: https://www.inecol.mx/personal/index.php/redes-academicas/diversidad-biologica-del-occidente-mexicano/205-carlos-andres-cultid-medina
+    orcid_id: 0000-0002-4929-8405
+    
+date: Enero 16, 2022
+site: distill::distill_website
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+```
+
+<aside>
+![](https://centrosconacyt.mx/wp-content/themes/cp-child/img/logos/INECOL.jpg "Inecol"){width="112"}
+</aside>
+
+## ¡Bienvenidos al curso!🙌
+
+Este es la página del curso de **Introducción a la estadística inferencial**, versión 2022.
+
+![](https://memegenerator.net/img/instances/72683289/bienvenida-al-lado-oscuro.jpg){width="300"}
+
+# Cronograma del curso 📆
+
+[![](img/cronograma2022.png)](https://classroom.google.com/u/1/c/MTg5NDkxODYwMzY0/m/NDUxNzQ2Mzc1NzY3/details)
+
+# Material de la clase 📚
+
+El material del curso está disponible en la página de classroom, en las siguientes ligas
+
+1.  [Él papel de la estadística en la investigación](https://classroom.google.com/u/1/w/MTg5NDkxODYwMzY0/tc/MjcwNzUxODUyMTc2)
+
+2.  [Introducción al Lenguaje R](https://classroom.google.com/u/1/w/MTg5NDkxODYwMzY0/tc/MjcwNjMxMTc1ODkx)
+
+3.  [Estimación 1 y 2](https://classroom.google.com/u/1/w/MTg5NDkxODYwMzY0/tc/MjcwODkyMzU4Mjk5)
+
+4.  [Análisis exploratorios](https://classroom.google.com/u/1/w/MTg5NDkxODYwMzY0/tc/MjcwODkyMzU4NDM1)
+
+5.  [Prueba de hipótesis 1 y 2](https://classroom.google.com/u/1/w/MTg5NDkxODYwMzY0/tc/MjcwODkyNTcyNTc5)
+
+6.  [Modelos lineales 1 y 2](https://classroom.google.com/u/1/w/MTg5NDkxODYwMzY0/tc/MjcwODkyNTcyODcx)
+
+# Scripts de clase 📊
+
+Los scripts pueden ser visualizados en html en la parte superior derecha de esta página.
+
+![](img/clases.png)
+
+Recuerden que las bases de datos se encuentran en el material de clase
+
+## Adicional {.appendix}
+
+**Monitor del curso 2022**
+
+Gabriel P. Andrade Ponce 📧 [gabriel.andrade\@posgrado.ecologia.edu.mx](mailto:gabriel.andrade@posgrado.ecologia.edu.mx){.email}
+
+**Edición de Scripts y página web**: Gabriel Andrade Ponce

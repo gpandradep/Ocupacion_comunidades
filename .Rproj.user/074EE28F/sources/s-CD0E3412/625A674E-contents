@@ -1,0 +1,189 @@
+---
+title: "Script ANDEVA de una via"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r echo=FALSE}
+library(downloadthis)
+
+## Link del script
+download_link(
+  link = "https://drive.google.com/file/d/1C5eI5DHRbFvA9-9s32wBZIW-1aM3e0Bj/view",
+  button_label = "Descargar script",
+  button_type = "primary",
+  has_icon = TRUE,
+  icon = "fa fa-save",
+  self_contained = FALSE
+)
+
+```
+
+```{r echo=FALSE}
+## Link del script pdf
+download_link(
+  link = "https://github.com/gpandradep/Intro_est_inecol_website/raw/main/scripts/Andeva.pdf",
+  button_label = "Descargar script en pdf",
+  button_type = "danger",
+  has_icon = TRUE,
+  icon = "fa fa-save",
+  self_contained = FALSE
+)
+```
+
+# R.1
+
+## Conceptos básicos del análisis de la varianza
+
+La hipótesis nula en un análisis de la varianza tipo I común es:
+
+$$H0: m1 = m2 = m3 = ... = mk$$
+
+¿Cómo es que esta hipótesis se pone a prueba en un ANDEVA?
+Por cierto esta es una prueba "omnibus", es decir ¡prueba muchas cosas de un jalón!
+
+Para ver como es que opera el anova veamos el ejemplo que sigue: Tomemos un solo factor, "f", con dos niveles y pongamos los datos en una gráfica simple, según el orden en el que fueron obtenidas las mediciones.
+
+```{r eval=FALSE}
+anova<-read.table("anova.data.txt",header=T)
+attach(anova)
+names(anova)
+```
+
+```{r include=FALSE}
+anova<-read.table("data/anova.data.txt",header=T)
+attach(anova)
+names(anova)
+```
+
+```{r}
+plot(y)
+abline(mean(y), 0, col=4)
+for (i in 1:length(y)) lines (c(i,i), c(mean(y), y[i]), col=5)
+```
+
+¿Qué muestra esta gráfica? 
+¿A que equivale la suma de los trazos verticales?
+ 
+$$ SCT=\Sigma(y- \overline{y})^2$$    
+
+Ahora vamos a hacer exactamente lo mismo, pero ahora dividiendo por cada uno de los niveles del factor F. Incorporemos la información del factor "f".  Para esto hay que calcular los promedios de "y" que corresponden a los niveles de "f"
+
+```{r}
+promedios <- tapply(y, f, mean)
+```
+
+Grafiquemos esta nueva estructura de datos sobre la  gráfica que ya tenemos
+
+```{r}
+plot(y)
+lines(c(1, 7), c(promedios[1], promedios[1]), col = 2)
+lines(c(7, 14), c(promedios[2], promedios[2]), col = 5)
+for (i in 1:7 ) lines (c(i,i), c(promedios[1], y[i]), col = 1, lty=6)
+for (i in 8:14) lines (c(i,i), c(promedios[2], y[i]), col = 1, lty=6)
+```
+¿Qué muestra esta gráfica? ¿a que equivale la suma de los trazos punteados verticales?
+
+$$SCE= \Sigma(y_1-\hat{y_1})^2 + \Sigma(y_2- \hat{y_2})^2$$
+
+Si las dos medias fueran iguales ¿cómo compararían estas dos gráficas?
+
+Si lo piensan tendrían que ser iguales porque las medias de los niveles del tratamiento se nivelarían a la misma altura. Si las medias son  significativamente distintas ¿cual varianza sería mayor? la calculada con SCT o la calculada con SCE? Esta es la razón por la cual el ANDEVA compara medias a través de la comparación de varianzas!!!!
+
+¿Qué interpretación tiene la diferencia entre las dos sumas mencionadas arriba?
+Pues es precisamente la varianza explicada por el modelo. Esta diferencia se asocia con la siguiente gráfica:
+
+```{r}
+modelo <- lm(y~f)
+plot (y)
+abline (mean(y), 0, col = 4)
+points(predict(modelo), pch = 16, col = 5)
+for (i in 1:14) lines(c(i, i), c(mean(y), predict(modelo)[i]), col = 6)
+```
+# C.1
+
+
+# R.2 
+
+¿Que implica el ajuste del modelo ANOVA del factor "f"?
+
+```{r}
+SCT<-sum((y-mean(y))^2)
+SCT
+```
+
+La pregunta es cuanto de esta variación es explicada por diferencias entre las medias de A y B (niveles del factor F) y cuanto por el error
+
+```{r}
+SCEa<-sum((y[f=="a"]-mean(y[f=="a"]))^2)
+SCEb<-sum((y[f=="b"]-mean(y[f=="b"]))^2)
+```
+
+Entonces la SCE es la suma de estas dos cantidades 
+
+ 
+```{r}
+SCE<-SCEa+SCEb
+SCE
+```
+
+Finalmente la SCA es SCT-SCE
+
+```{r}
+SCA<-SCT-SCE
+SCA
+```
+ 
+Entonces ya podemos llenar la tabla de ANOVA
+ 
+#C.2
+
+
+# R.3 
+
+Ahora calculemos la F
+
+```{r}
+31.5/2
+```
+
+y la p
+
+```{r}
+1-pf(15.75,1,12)
+```
+
+Ahora el automatico
+
+```{r}
+modelo<-aov(y~f)
+```
+
+```{r}
+summary(modelo)
+boxplot(y~f,xlab="factor F",ylab="y")
+```
+
+¿Cual es la conclusión?
+Ahora hacemos la crítica del modelo
+
+```{r}
+par(mfrow=c(2,2))
+plot(modelo)
+```
+
+y ahora lo ultimo
+
+```{r}
+A<-c(6,8,5,9,7,8,6)
+B<-c(9,11,8,12,10,11,9)
+t.test(A,B)
+summary(modelo)
+```
+
+La anova es una "Generalización" de t para poder comparar mas de dos medias. En realidad F=t^2
+
+# Fin

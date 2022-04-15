@@ -1,0 +1,4 @@
+"0","# Cargamos la tabla de registros de las especies"
+"0","registers <-  read.csv(""Data/Survey/recordTable_OC.csv"")"
+"2","Error in file(file, ""rt"") : cannot open the connection
+"
