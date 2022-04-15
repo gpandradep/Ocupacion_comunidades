@@ -3,7 +3,7 @@ title: "Occu_comunidad"
 favicon: images/favicon.ico
 description: |
   Curso modelos de ocupación para comunidades
-output_dir: "_docs"
+output_dir: "docs"
 include: ["slides/"]
 creative_commons: CC BY-SA
 navbar: 
