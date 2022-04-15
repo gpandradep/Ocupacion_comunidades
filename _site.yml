@@ -12,8 +12,10 @@ navbar:
   right:
     - text: "Home"
       href: index.html
-    - text: "DivOc"
-      href: DivOc.html
+    - text: "Scripts"
+      menu:
+      - text: "DivOc"
+        href: DivOc.html
 output: 
   distill::distill_article:
     toc: true 
