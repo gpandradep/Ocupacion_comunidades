@@ -2102,68 +2102,47 @@ Scripts
 <nav class="l-text toc figcaption" id="TOC">
 <h3>Contents</h3>
 <ul>
-<li><a href="#script-divoc_script.r">Script <code>DivOC_script.R</code></a>
+<li><a href="#script-divoc_script.r">Script <code>DivOC_script.R</code></a></li>
+<li><a href="#instalar-y-cargar-el-paquete--">1. Instalar y cargar el paquete —-</a></li>
+<li><a href="#cargar-los-datos--">2. Cargar los datos —-</a>
 <ul>
-<li><a href="#comenzaremos-usando-la-paquetería-diversityoccupancy">Comenzaremos usando la paquetería <code>DiversityOccupancy</code></a></li>
-</ul></li>
-<li><a href="#este-paquete-te-va-a-pedir-instalar-también-mumin-unmarked-reshape-lattice-rcpp">Este paquete te va a pedir instalar también <code>MuMIn</code>, <code>unmarked</code>, <code>reshape</code>, <code>lattice</code>, <code>Rcpp</code></a></li>
 <li><a href="#formato-de-los-datos">Formato de los datos</a></li>
 <li><a href="#cargar-las-covariables">Cargar las covariables</a></li>
-<li><a href="#manos-a-la-obra">Manos a la obra</a>
+</ul></li>
+<li><a href="#modelos-de-abundancia--">3. Modelos de abundancia —-</a>
 <ul>
-<li><a href="#vamos-a-utilizar-la-función-diversityoccu">Vamos a utilizar la función <code>diversityoccu()</code></a></li>
+<li><a href="#modelos-básicos--">3.1 Modelos básicos —-</a>
+<ul>
 <li><a href="#veamos-uno-de-los-modelos">Veamos uno de los modelos 🐺</a></li>
 </ul></li>
-<li><a href="#el-problema..">El problema…..</a>
-<ul>
-<li><a href="#cómo-vamos-a-generar-todas-las-posibles-combinaciones-de-modelos-para-cada-especie">¿Cómo vamos a generar todas las posibles combinaciones de modelos para cada especie?</a></li>
-<li><a href="#solamente-tenemos-que-activar-dredge">Solamente tenemos que activar <code>dredge</code></a></li>
-<li><a href="#veamos-de-nuevo-el-modelo-que-seleccionó-para-la-sp9">Veamos de nuevo el modelo que seleccionó para la sp9 🐺</a>
-<ul>
-<li><a href="#veamos-el-resultado-gráfico-para-la-especie-3">Veamos el resultado gráfico para la especie 3 🐗</a></li>
+<li><a href="#mejores-modelos-con-aic--">3.2 Mejores modelos con AIC —-</a></li>
 </ul></li>
-</ul></li>
-<li><a href="#momento-de-la-diversidad">Momento de la diversidad</a></li>
-<li><a href="#momento-de-la-diversidad-1">Momento de la diversidad</a>
+<li><a href="#gráfico-de-predicción--">3.3 Gráfico de predicción —-</a></li>
+<li><a href="#modelando-la-diversidad--">4. Modelando la diversidad —-</a>
 <ul>
-<li><a href="#ahora-veamos-la-respuesta-gráfica-de-la-diversidad-a-una-variable">Ahora veamos la respuesta gráfica de la diversidad a una variable</a></li>
+<li><a href="#respuesta-gráfica-de-la-diversidad-a-distintas-variables--">4.1 Respuesta Gráfica de la diversidad a distintas variables —-</a></li>
+<li><a href="#diversidad-para-cada-indice-de-entropía">4.2 Diversidad para cada indice de entropía</a></li>
 </ul></li>
-<li><a href="#relativamente-fácil">Relativamente fácil</a></li>
-<li><a href="#para-ser-verdad-..">Para ser verdad …..</a></li>
-<li><a href="#diversidad.">Diversidad….</a></li>
-<li><a href="#glm-de-que-tipo">Glm? de que tipo?</a></li>
-<li><a href="#es-importante-leer-el-manual">Es importante leer el manual</a>
+<li><a href="#calculamos-número-efectivo-de-especies--">5. Calculamos número efectivo de especies —-</a>
 <ul>
-<li><a href="#podemos-aplicar-la-función-para-cada-índice">Podemos aplicar la función para cada índice…?</a></li>
-</ul></li>
-<li><a href="#índices-de-entropía-..">Índices de entropía …..</a>
-<ul>
-<li><a href="#calculemos-el-número-efectivo-de-especies-con-las-abundancias-estimadas">Calculemos el número efectivo de especies con las abundancias estimadas</a></li>
-</ul></li>
-<li><a href="#calculemos-diversidad-con-hillr">Calculemos diversidad con <code>hillR</code></a></li>
-<li><a href="#obtenemos-esta-base">Obtenemos esta base</a></li>
-<li><a href="#ahora-ajustemos-un-glm-sencillo">Ahora ajustemos un glm sencillo</a></li>
 <li><a href="#tarea">Tarea</a></li>
-<li><a href="#consideraciones-finales">Consideraciones finales</a>
-<ul>
-<li><a href="#un-ejemplo-de-cómo-se-pueden-usar-los-modelos-royle-nichols-para-calcular-diversidad">Un ejemplo de cómo se pueden usar los modelos Royle-Nichols para calcular diversidad</a></li>
 </ul></li>
+<li><a href="#consideraciones-finales">6. Consideraciones finales</a></li>
+<li><a href="#ejemplo-en-una-investigación">7. Ejemplo en una investigación</a></li>
 <li><a href="#fin">FIN</a></li>
 </ul>
 </nav>
 </div>
-<h2 id="script-divoc_script.r">Script <code>DivOC_script.R</code></h2>
-<h3 id="comenzaremos-usando-la-paquetería-diversityoccupancy">Comenzaremos usando la paquetería <code>DiversityOccupancy</code></h3>
-<p>Este paquete estima la diversidad alfa por medio de modelos jerárquicos.</p>
+<h1 id="script-divoc_script.r">Script <code>DivOC_script.R</code></h1>
+<h1 id="instalar-y-cargar-el-paquete--">1. Instalar y cargar el paquete —-</h1>
+<p>Comenzaremos usando la paquetería <code>DiversityOccupancy</code>. Este paquete estima la diversidad alfa por medio de modelos jerárquicos.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># 1. Instalar y cargar el paquete ----</span>
-
-<span class='co'># install.packages("DiversityOccupancy")</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># install.packages("DiversityOccupancy")</span>
 
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>DiversityOccupancy</span><span class='op'>)</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/jniedballa/camtrapR'>camtrapR</a></span><span class='op'>)</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/jniedballa/camtrapR'>camtrapR</a></span><span class='op'>)</span> <span class='co'>#Funciones de registro de especies</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span> <span class='co'># Manípular datos y gráficos</span>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/daijiang/hillR'>hillR</a></span><span class='op'>)</span> <span class='co'># Estimar diversidad</span>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://strengejacke.github.io/ggeffects/'>ggeffects</a></span><span class='op'>)</span> <span class='co'>#gráficas de pred para glm</span>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>beepr</span><span class='op'>)</span> <span class='co'># Opcional para avisar R termine</span>
@@ -2171,10 +2150,10 @@ Scripts
 </code></pre>
 </div>
 </div>
-<h2 id="este-paquete-te-va-a-pedir-instalar-también-mumin-unmarked-reshape-lattice-rcpp">Este paquete te va a pedir instalar también <code>MuMIn</code>, <code>unmarked</code>, <code>reshape</code>, <code>lattice</code>, <code>Rcpp</code></h2>
+<p>Este paquete te va a pedir instalar también <code>MuMIn</code>, <code>unmarked</code>, <code>reshape</code>, <code>lattice</code>, <code>Rcpp</code></p>
+<h1 id="cargar-los-datos--">2. Cargar los datos —-</h1>
 <h2 id="formato-de-los-datos">Formato de los datos</h2>
-<p>Son necesarios eventos de muestreo repetidos.</p>
-<p>Vamos a trabajar con una base de datos de 17 especies, 67 sitios (cámaras) y 16 eventos de muestreo.</p>
+<p>Son necesarios eventos de muestreo repetidos. Vamos a trabajar con una base de datos de 17 especies, 67 sitios (cámaras) y 16 eventos de muestreo.</p>
 <blockquote>
 <p><strong>Nota</strong>: Todas las especies deben tener una matriz de historias de detección de las mismas dimensiones</p>
 </blockquote>
@@ -2254,7 +2233,7 @@ Urocyon cinereoargenteus
 </code></pre>
 </div>
 </div>
-<p>Obtenemos una matriz con el mismo número de sitios <strong>67</strong> y <em>19</em> eventos X <em>19</em> especies = 323 columnas</p>
+<p>Obtenemos una matriz con el mismo número de sitios <strong>67</strong> y <em>19</em> eventos X <em>17</em> especies = 323 columnas</p>
 <div class="layout-chunk" data-layout="l-body">
 <table>
 <thead>
@@ -9080,7 +9059,7 @@ NA
 </tbody>
 </table>
 </div>
-<h1 id="cargar-las-covariables">Cargar las covariables</h1>
+<h2 id="cargar-las-covariables">Cargar las covariables</h2>
 <p>Vamos a leer el archivo .csv de la ruta <code>data/Covs/</code> que contiene las covariables de sitio (no usaremos de observación). Todas estas estandarizadas</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -9199,11 +9178,11 @@ Dpop_G
 </table>
 </div>
 <blockquote>
-<p><strong>Importante</strong>: Cada proceso es afectado por diferentes covariables. Para más información mira este <strong><a href="https://mmeredith.net/blog/2021/Polar_bear.htm?fbclid=IwAR2XKX0X9Lu-Bqu2skniXNJV54dsMqy0lb7AdFZpoCR4ZN1E5Yt71rLvgF4">enlace</a></strong></p>
+<p><strong>Importante</strong>: Cada proceso es afectado por diferentes covariables. Para más información mira este <a href="https://mmeredith.net/blog/2021/Polar_bear.htm?fbclid=IwAR2XKX0X9Lu-Bqu2skniXNJV54dsMqy0lb7AdFZpoCR4ZN1E5Yt71rLvgF4"><strong>enlace</strong></a></p>
 </blockquote>
-<h1 id="manos-a-la-obra">Manos a la obra</h1>
-<h3 id="vamos-a-utilizar-la-función-diversityoccu">Vamos a utilizar la función <code>diversityoccu()</code></h3>
-<p>Se genera un objeto lista con los modelos para cada una de las especies, cálculo de diversidad y otras cosas….</p>
+<h1 id="modelos-de-abundancia--">3. Modelos de abundancia —-</h1>
+<h2 id="modelos-básicos--">3.1 Modelos básicos —-</h2>
+<p>Vamos a utilizar la función <code>diversityoccu()</code>. Se genera un objeto lista con los modelos para cada una de las especies, cálculo de diversidad y otras cosas….</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>cam_diver</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DiversityOccupancy/man/diversityoccu.html'>diversityoccu</a></span><span class='op'>(</span>pres <span class='op'>=</span> <span class='va'>data</span>, <span class='co'># La matriz de datos</span>
@@ -9256,12 +9235,10 @@ Slope          0.138 0.301  0.458 0.64725
 
 AIC: 190.8491 </code></pre>
 </div>
-<h1 id="el-problema..">El problema…..</h1>
 <p>No sabemos si todas las especies responden de la misma manera a las covariables que usamos. Debemos escoger de todas las variables cual se ajusta mejor a cada especie</p>
-<h3 id="cómo-vamos-a-generar-todas-las-posibles-combinaciones-de-modelos-para-cada-especie">¿Cómo vamos a generar todas las posibles combinaciones de modelos para cada especie?</h3>
-<p>Tranquilo esta misma función lo hace por ti :D</p>
-<hr />
-<h2 id="solamente-tenemos-que-activar-dredge">Solamente tenemos que activar <code>dredge</code></h2>
+<p>¿Cómo vamos a generar todas las posibles combinaciones de modelos para cada especie?</p>
+<h2 id="mejores-modelos-con-aic--">3.2 Mejores modelos con AIC —-</h2>
+<p>Tranquilo esta misma función lo hace por ti :D. Solamente tenemos que activar <code>dredge</code></p>
 <p>Dependiendo de tu computador la función puede tardar más o menos. En la mía duró ~57 segs. Pero puede tardar mucho más dependiendo del número de especies, sitios, eventos de muestreo y cantidad de covariables.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -9275,7 +9252,7 @@ AIC: 190.8491 </code></pre>
 </code></pre>
 </div>
 </div>
-<h2 id="veamos-de-nuevo-el-modelo-que-seleccionó-para-la-sp9">Veamos de nuevo el modelo que seleccionó para la sp9 🐺</h2>
+<p>Veamos de nuevo el modelo que seleccionó para la sp9 🐺</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>cam_diver</span><span class='op'>$</span><span class='va'>models</span><span class='op'>[[</span><span class='fl'>9</span><span class='op'>]</span><span class='op'>]</span>
@@ -9319,7 +9296,8 @@ Slope         -0.596 0.215 -2.77 5.58e-03
 
 AIC: 315.6987 </code></pre>
 </div>
-<h3 id="veamos-el-resultado-gráfico-para-la-especie-3">Veamos el resultado gráfico para la especie 3 🐗</h3>
+<h1 id="gráfico-de-predicción--">3.3 Gráfico de predicción —-</h1>
+<p>Veamos el resultado gráfico para la especie 3 🐗</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/DiversityOccupancy/man/responseplot.abund.html'>responseplot.abund</a></span><span class='op'>(</span> batch <span class='op'>=</span> <span class='va'>cam_diver_AIC</span>, <span class='co'># objeto creado con diversityoccu</span>
@@ -9330,7 +9308,7 @@ AIC: 315.6987 </code></pre>
 </div>
 <p><img src="DivOc_files/figure-html5/unnamed-chunk-13-1.png" width="624" /></p>
 </div>
-<h1 id="momento-de-la-diversidad">Momento de la diversidad</h1>
+<h1 id="modelando-la-diversidad--">4. Modelando la diversidad —-</h1>
 <p>Tenemos un modelo donde se estima la abundancia para cada especie, es hora de modelar la diversidad</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -9342,7 +9320,6 @@ AIC: 315.6987 </code></pre>
 </code></pre>
 </div>
 </div>
-<h1 id="momento-de-la-diversidad-1">Momento de la diversidad</h1>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>AICtab</span> <span class='op'>&lt;-</span> <span class='va'>glm.div</span><span class='op'>$</span><span class='va'>Table</span>
@@ -9441,7 +9418,8 @@ Diversity ~ 1 + Dcrops + Dpop_G + I(Dcrops^2)
 </tbody>
 </table>
 </div>
-<h3 id="ahora-veamos-la-respuesta-gráfica-de-la-diversidad-a-una-variable">Ahora veamos la respuesta gráfica de la diversidad a una variable</h3>
+<h2 id="respuesta-gráfica-de-la-diversidad-a-distintas-variables--">4.1 Respuesta Gráfica de la diversidad a distintas variables —-</h2>
+<p>Ahora veamos la respuesta gráfica de la diversidad a una variable</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/pkg/DiversityOccupancy/man/responseplot.diver.html'>responseplot.diver</a></span><span class='op'>(</span><span class='va'>glm.div</span>, <span class='va'>Dcrops</span><span class='op'>)</span>
@@ -9450,19 +9428,18 @@ Diversity ~ 1 + Dcrops + Dpop_G + I(Dcrops^2)
 <p><img src="DivOc_files/figure-html5/unnamed-chunk-18-1.png" width="624" /></p>
 </div>
 <p>A medida que aumenta el valor de distancia a cultivos (escalado) hay mayor diversidad ?????</p>
-<h1 id="relativamente-fácil">Relativamente fácil</h1>
+<p>Relativamente fácil, para ser verdad …..</p>
 <p><img src="https://ugc.kn3.net/i/760x/https://media1.tenor.com/images/048cc35b45c1545328f41a03d0177ffa/tenor.gif?itemid=5513707" /></p>
-<h1 id="para-ser-verdad-..">Para ser verdad …..</h1>
-<h1 id="diversidad.">Diversidad….</h1>
 <p>Si seguimos la viñeta del paquete nunca nos dice que elemento de la diversidad mide o calcula..</p>
 <ul>
 <li>Riqueza?</li>
 <li>Shannon, simpson?….</li>
 <li>Número efectivo de especies?? (Hill)</li>
 </ul>
-<h1 id="glm-de-que-tipo">Glm? de que tipo?</h1>
+<p>Glm? de que tipo?</p>
 <p>Un Glm puede ser de varias familias (distribuciones) y depende de la naturaleza de los datos: conteos, proporciones, unos y ceros</p>
-<h1 id="es-importante-leer-el-manual">Es importante leer el manual</h1>
+<p>Es importante leer el manual</p>
+<h2 id="diversidad-para-cada-indice-de-entropía">4.2 Diversidad para cada indice de entropía</h2>
 <p>Hay otro argumento de la función <code>diversityoccu</code> y es <em>“index”</em>. Este argumento permite escoger que índice utilizar <strong>“shannon”</strong>, <strong>“simpson”</strong> o <strong>“invsimpson”</strong>.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -9477,7 +9454,7 @@ Diversity ~ 1 + Dcrops + Dpop_G + I(Dcrops^2)
 </code></pre>
 </div>
 </div>
-<h2 id="podemos-aplicar-la-función-para-cada-índice">Podemos aplicar la función para cada índice…?</h2>
+<p>Podemos aplicar la función para cada índice…?</p>
 <blockquote>
 <p>También se puede hacer una función que lo haga en automático, pero por simplicidad (<del>no se hacerlo bien</del>) corremos tres veces la función</p>
 </blockquote>
@@ -9501,9 +9478,10 @@ Diversity ~ 1 + Dcrops + Dpop_G + I(Dcrops^2)
 </code></pre>
 </div>
 </div>
-<h1 id="índices-de-entropía-..">Índices de entropía …..</h1>
+<p>Índices de entropía …..</p>
 <p>El problema de estos índices (<del>para los ecólogos</del>) es que - son adimensionales - no siguen una relación lineal con la riqueza (doble de riqueza <span class="math inline">\(\neq\)</span> doble de diversidad)</p>
-<h3 id="calculemos-el-número-efectivo-de-especies-con-las-abundancias-estimadas">Calculemos el número efectivo de especies con las abundancias estimadas</h3>
+<h1 id="calculamos-número-efectivo-de-especies--">5. Calculamos número efectivo de especies —-</h1>
+<p>Calculemos el número efectivo de especies con las abundancias estimadas</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Extraer los datos de abundancia</span>
@@ -9892,7 +9870,7 @@ species.17
 </tbody>
 </table>
 </div>
-<h1 id="calculemos-diversidad-con-hillr">Calculemos diversidad con <code>hillR</code></h1>
+<p>Calculemos diversidad con <code>hillR</code></p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='co'># calcular los perfiles de diversidad</span>
@@ -9912,7 +9890,7 @@ species.17
 </code></pre>
 </div>
 </div>
-<h1 id="obtenemos-esta-base">Obtenemos esta base</h1>
+<p>Obtenemos esta base</p>
 <div class="layout-chunk" data-layout="l-body">
 <table>
 <thead>
@@ -10124,7 +10102,7 @@ Dpop_G
 </tbody>
 </table>
 </div>
-<h1 id="ahora-ajustemos-un-glm-sencillo">Ahora ajustemos un glm sencillo</h1>
+<p>Ahora ajustemos un glm sencillo</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>glm_q1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span><span class='op'>(</span><span class='va'>q1</span><span class='op'>~</span> <span class='va'>Dcrops</span>, family <span class='op'>=</span> <span class='va'>gaussian</span>, data <span class='op'>=</span> <span class='va'>glm_hill</span><span class='op'>)</span>
@@ -10145,22 +10123,23 @@ Dpop_G
 <div class="layout-chunk" data-layout="l-body">
 <p><img src="DivOc_files/figure-html5/unnamed-chunk-29-1.png" width="624" /></p>
 </div>
-<h1 id="tarea">Tarea</h1>
+<h2 id="tarea">Tarea</h2>
 <ul>
 <li>Modelar los otros perfiles de diversidad</li>
 <li>Crear modelos candidatos con otras covariables y escoger con AIC</li>
 </ul>
 <p><img src="https://www.recreoviral.com/wp-content/uploads/2016/04/Las-tareas-est%C3%A1n-destruyendo-a-nuestros-hijos-y-los-cient%C3%ADficos-piden-prohibirla-4.gif" /></p>
-<h1 id="consideraciones-finales">Consideraciones finales</h1>
+<h1 id="consideraciones-finales">6. Consideraciones finales</h1>
 <ol type="1">
 <li><p>El paquete es bueno y agiliza muchos pasos del modelado</p></li>
-<li><p>Cuando no hay ninguna covariable que explique la abundancia, se asume que es constante para todos los sitios. Eso puede subestimar o sobrestimar la abundancia…</p></li>
-<li><p>Abundancia constante: diversidad de la localidad y no de la cámara?</p></li>
+<li><p>Cuando no hay ninguna covariable que explique la “abundancia”, se asume que es constante para todos los sitios. Eso puede subestimar o sobrestimar la abundancia…</p></li>
+<li><p>“Abundancia” constante: diversidad de la localidad y no de la cámara?</p></li>
 <li><p>Si se usan los índices de entropía se debe saber cómo interpretarlos (<a href="https://onlinelibrary.wiley.com/doi/abs/10.1111/j.2006.0030-1299.14714.x">Jost 2006</a> ; <a href="https://onlinelibrary.wiley.com/doi/full/10.1111/j.1472-4642.2009.00626.x">Jost et al 2010</a>)]</p></li>
 </ol>
-<h2 id="un-ejemplo-de-cómo-se-pueden-usar-los-modelos-royle-nichols-para-calcular-diversidad">Un ejemplo de cómo se pueden usar los modelos Royle-Nichols para calcular diversidad</h2>
+<h1 id="ejemplo-en-una-investigación">7. Ejemplo en una investigación</h1>
+<p>Un ejemplo de cómo se pueden usar los modelos Royle-Nichols para calcular diversidad</p>
 <blockquote>
-<p>Tesis de pregrado premiada por la AMMAC</p>
+<p>Tesis de licenciatura pregrado premiada por la Asosiación Mexicana de Mastozoología A.C. (AMMAC)</p>
 </blockquote>
 <p><a href="https://www.youtube.com/watch?v=qaD9NRAg3SQ" class="uri">https://www.youtube.com/watch?v=qaD9NRAg3SQ</a> ]</p>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/qaD9NRAg3SQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>

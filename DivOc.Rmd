@@ -6,19 +6,20 @@ title: "Script DivOC_script.R"
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Script `DivOC_script.R`
-### Comenzaremos usando la paquetería `DiversityOccupancy`
+# Script `DivOC_script.R`
 
-Este paquete estima la diversidad alfa por medio de modelos jerárquicos. 
+# 1. Instalar y cargar el paquete ----
+
+Comenzaremos usando la paquetería `DiversityOccupancy`. 
+Este paquete estima la diversidad alfa por medio de modelos jerárquicos.
 
 ```{r eval=T, message=FALSE, warning=FALSE}
-# 1. Instalar y cargar el paquete ----
 
 # install.packages("DiversityOccupancy")
 
 library(DiversityOccupancy)
-library(camtrapR)
-library(tidyverse)
+library(camtrapR) #Funciones de registro de especies
+library(tidyverse) # Manípular datos y gráficos
 library(hillR) # Estimar diversidad
 library(ggeffects) #gráficas de pred para glm
 library(beepr) # Opcional para avisar R termine
@@ -26,12 +27,12 @@ library(tictoc) # Opcional para tomar el tiempo de la función
 ```
 
 Este paquete te va a pedir instalar también `MuMIn`, `unmarked`, `reshape`, `lattice`, `Rcpp`
----
+
+# 2. Cargar los datos ----
+
 ## Formato de los datos
 
-Son necesarios eventos de muestreo repetidos. 
-
-Vamos a trabajar con una base de datos de 17 especies, 67 sitios (cámaras) y 16 eventos de muestreo.
+Son necesarios eventos de muestreo repetidos. Vamos a trabajar con una base de datos de 17 especies, 67 sitios (cámaras) y 16 eventos de muestreo.
 
 > **Nota**: Todas las especies deben tener una matriz de historias de detección de las mismas dimensiones
 
@@ -87,16 +88,15 @@ data <- ylist %>% # Lista con los datos
   reduce(cbind) # Unimos las historias de captura en un solo dataframe
 ```
 
-
-Obtenemos una matriz con el mismo número de sitios **67** y *19* eventos X *19* especies = 323 columnas 
+Obtenemos una matriz con el mismo número de sitios **67** y *19* eventos X *17* especies = 323 columnas
 
 ```{r echo=FALSE}
 knitr::kable(head(data), format = 'html')
 ```
 
-# Cargar las covariables
-Vamos a leer el archivo .csv de la ruta `data/Covs/` que contiene las covariables de sitio (no usaremos de observación). Todas estas estandarizadas
+## Cargar las covariables
 
+Vamos a leer el archivo .csv de la ruta `data/Covs/` que contiene las covariables de sitio (no usaremos de observación). Todas estas estandarizadas
 
 ```{r}
 # Ahora cargamos las covariables (previamente estandarizadas)
@@ -104,18 +104,16 @@ covars <- read.csv("Data/Covs/stdcovs_OC.csv") %>%
   select(-"...1", -X, -Station, -Cam, -Cluster) # Las gráficas no funcionan con categóricas
 ```
 
-
 ```{r echo=FALSE}
 knitr::kable(head(covars,4), format = 'html')
 ```
 
-> **Importante**: Cada proceso es afectado por diferentes covariables. Para más información mira este **[enlace](https://mmeredith.net/blog/2021/Polar_bear.htm?fbclid=IwAR2XKX0X9Lu-Bqu2skniXNJV54dsMqy0lb7AdFZpoCR4ZN1E5Yt71rLvgF4)**
+> **Importante**: Cada proceso es afectado por diferentes covariables. Para más información mira este [**enlace**](https://mmeredith.net/blog/2021/Polar_bear.htm?fbclid=IwAR2XKX0X9Lu-Bqu2skniXNJV54dsMqy0lb7AdFZpoCR4ZN1E5Yt71rLvgF4)
 
-# Manos a la obra
+# 3. Modelos de abundancia ----
+## 3.1 Modelos básicos ----
 
-### Vamos a utilizar la función `diversityoccu()`
-
-Se genera un objeto lista con los modelos para cada una de las especies, cálculo de diversidad y otras cosas....
+Vamos a utilizar la función `diversityoccu()`. Se genera un objeto lista con los modelos para cada una de las especies, cálculo de diversidad y otras cosas....
 
 ```{r message=FALSE, warning=FALSE}
 cam_diver <- diversityoccu(pres = data, # La matriz de datos
@@ -130,27 +128,22 @@ cam_diver <- diversityoccu(pres = data, # La matriz de datos
 
 Se va a generar un objeto lista con los modelos para cada una de las especies, cálculo de diversidad y otras cosas....
 
-### Veamos uno de los modelos &#x1F43A;
+### Veamos uno de los modelos 🐺
 
 ```{r}
 cam_diver$models[[9]] # Modelo para la especie 9 
 ```
 
 
-# El problema.....
-
 No sabemos si todas las especies responden de la misma manera a las covariables que usamos. Debemos escoger de todas las variables cual se ajusta mejor a cada especie
 
+¿Cómo vamos a generar todas las posibles combinaciones de modelos para cada especie?
 
-### ¿Cómo vamos a generar todas las posibles combinaciones de modelos para cada especie?
+## 3.2 Mejores modelos con AIC ----
 
-Tranquilo esta misma función lo hace por ti :D
+Tranquilo esta misma función lo hace por ti :D. Solamente tenemos que activar `dredge`
 
----
-## Solamente tenemos que activar `dredge`
-
-Dependiendo de tu computador la función puede tardar más o menos. En la mía duró ~57 segs.
-Pero puede tardar mucho más dependiendo del número de especies, sitios, eventos de muestreo y cantidad de covariables.
+Dependiendo de tu computador la función puede tardar más o menos. En la mía duró \~57 segs. Pero puede tardar mucho más dependiendo del número de especies, sitios, eventos de muestreo y cantidad de covariables.
 
 ```{r, eval=FALSE}
 cam_diver_AIC <- diversityoccu(pres = data, # La matriz de datos
@@ -166,20 +159,19 @@ cam_diver_AIC <- diversityoccu(pres = data, # La matriz de datos
 load("results/diver_AIC.R")
 ```
 
-## Veamos de nuevo el modelo que seleccionó para la sp9 &#x1F43A;
+ Veamos de nuevo el modelo que seleccionó para la sp9 🐺
 
 ```{r}
 cam_diver$models[[9]]
 ```
 
-
-
 ```{r}
 cam_diver_AIC$models[[9]]
 ```
 
+# 3.3 Gráfico de predicción ----
 
-### Veamos el resultado gráfico para la especie 3 &#128023;
+Veamos el resultado gráfico para la especie 3 🐗
 
 ```{r}
 (responseplot.abund( batch = cam_diver_AIC, # objeto creado con diversityoccu
@@ -188,8 +180,8 @@ cam_diver_AIC$models[[9]]
 ))
 ```
 
-# Momento de la diversidad
 
+# 4. Modelando la diversidad ---- 
 Tenemos un modelo donde se estima la abundancia para cada especie, es hora de modelar la diversidad
 
 ```{r ,eval=FALSE}
@@ -204,7 +196,7 @@ glm.div <- model.diversity(DivOcc = cam_diver_AIC,# modelos
 load("results/diver_glm.R")
 ```
 
-# Momento de la diversidad
+
 
 ```{r}
 AICtab <- glm.div$Table
@@ -215,35 +207,34 @@ knitr::kable(AICtab, format = 'html')
 ```
 
 
-### Ahora veamos la respuesta gráfica de la diversidad a una variable
+## 4.1 Respuesta Gráfica de la diversidad a distintas  variables ----
+Ahora veamos la respuesta gráfica de la diversidad a una variable
+
 ```{r}
 responseplot.diver(glm.div, Dcrops)
 ```
+
 A medida que aumenta el valor de distancia a cultivos (escalado) hay mayor diversidad ?????
 
+Relativamente fácil, para ser verdad .....
 
-# Relativamente fácil
 ![](https://ugc.kn3.net/i/760x/https://media1.tenor.com/images/048cc35b45c1545328f41a03d0177ffa/tenor.gif?itemid=5513707)
-
-# Para ser verdad .....
-
-# Diversidad....
 
 Si seguimos la viñeta del paquete nunca nos dice que elemento de la diversidad mide o calcula..
 
-- Riqueza?
-- Shannon, simpson?....
-- Número efectivo de especies?? (Hill)
+-   Riqueza?
+-   Shannon, simpson?....
+-   Número efectivo de especies?? (Hill)
 
+Glm? de que tipo?
 
-# Glm? de que tipo?
 Un Glm puede ser de varias familias (distribuciones) y depende de la naturaleza de los datos: conteos, proporciones, unos y ceros
 
+Es importante leer el manual
 
+## 4.2 Diversidad para cada indice de entropía
 
-# Es importante leer el manual
-
- Hay otro argumento de la función `diversityoccu` y es *"index"*. Este argumento permite escoger que índice utilizar **"shannon"**, **"simpson"** o **"invsimpson"**.
+Hay otro argumento de la función `diversityoccu` y es *"index"*. Este argumento permite escoger que índice utilizar **"shannon"**, **"simpson"** o **"invsimpson"**.
 
 ```{r, eval=FALSE}
 cam_diver_sh <- diversityoccu(pres = data, 
@@ -256,9 +247,9 @@ cam_diver_sh <- diversityoccu(pres = data,
 )
 ```
 
-## Podemos aplicar la función para cada índice...?
-> También se puede hacer una función que lo haga en automático, pero por simplicidad (~~no se hacerlo bien~~) corremos tres veces la función
+Podemos aplicar la función para cada índice...?
 
+> También se puede hacer una función que lo haga en automático, pero por simplicidad (~~no se hacerlo bien~~) corremos tres veces la función
 
 ```{r, eval=FALSE}
 cam_diver_sim <- diversityoccu(pres = data, 
@@ -284,16 +275,15 @@ load("results/simpson.R")
 load("results/invsimpson.R")
 ```
 
+Índices de entropía .....
 
-# Índices de entropía .....
-
-El problema de estos índices (~~para los ecólogos~~) es que
-- son adimensionales
-- no siguen una relación lineal con la riqueza (doble de riqueza $\neq$ doble de diversidad)
+El problema de estos índices (~~para los ecólogos~~) es que - son adimensionales - no siguen una relación lineal con la riqueza (doble de riqueza $\neq$ doble de diversidad)
 
 
+# 5. Calculamos número efectivo de especies ----
 
-### Calculemos el número efectivo de especies con las abundancias estimadas
+Calculemos el número efectivo de especies con las abundancias estimadas
+
 ```{r}
 # Extraer los datos de abundancia
 hill_data <- cam_diver_inv[[4]] %>% 
@@ -306,7 +296,7 @@ Sospechoso...
 knitr::kable(head(hill_data), format = 'html')
 ```
 
-# Calculemos diversidad con `hillR`
+Calculemos diversidad con `hillR`
 
 ```{r}
 # calcular los perfiles de diversidad
@@ -324,22 +314,19 @@ hill_div <- data.frame(q0=q0, q1=q1, q2=q2)
 glm_hill <- cbind(hill_div, covars)
 ```
 
-
-# Obtenemos esta base
+Obtenemos esta base
 
 ```{r echo=FALSE}
 knitr::kable(head(glm_hill), format = 'html')
 ```
 
-
-# Ahora ajustemos un glm sencillo
+Ahora ajustemos un glm sencillo
 
 ```{r}
 glm_q1 <- glm(q1~ Dcrops, family = gaussian, data = glm_hill)
 ```
 
 y usemos ggeffects para graficar
-
 
 ```{r , eval=FALSE}
 plot_q1 <- ggpredict(glm_q1, terms = "Dpop_G")
@@ -349,7 +336,6 @@ plot(plot_q1)+
   theme_classic()
 ```
 
-
 ```{r echo=FALSE}
 plot_q1 <- ggpredict(glm_q1, terms = "Dcrops")
 plot(plot_q1)+
@@ -357,31 +343,35 @@ plot(plot_q1)+
   theme_classic()
 ```
 
-# Tarea
-- Modelar los otros perfiles de diversidad
-- Crear modelos candidatos con otras covariables y escoger con AIC
+## Tarea
+
+-   Modelar los otros perfiles de diversidad
+-   Crear modelos candidatos con otras covariables y escoger con AIC
 
 ![](https://www.recreoviral.com/wp-content/uploads/2016/04/Las-tareas-est%C3%A1n-destruyendo-a-nuestros-hijos-y-los-cient%C3%ADficos-piden-prohibirla-4.gif)
 
+# 6. Consideraciones finales
+
+1.  El paquete es bueno y agiliza muchos pasos del modelado
+
+2.  Cuando no hay ninguna covariable que explique la "abundancia", se asume que es constante para todos los sitios. Eso puede subestimar o sobrestimar la abundancia...
+
+3.  "Abundancia" constante: diversidad de la localidad y no de la cámara?
+
+4.  Si se usan los índices de entropía se debe saber cómo interpretarlos ([Jost 2006](https://onlinelibrary.wiley.com/doi/abs/10.1111/j.2006.0030-1299.14714.x) ; [Jost et al 2010](https://onlinelibrary.wiley.com/doi/full/10.1111/j.1472-4642.2009.00626.x))]
 
 
-# Consideraciones finales
+# 7. Ejemplo en una investigación
+Un ejemplo de cómo se pueden usar los modelos Royle-Nichols para calcular diversidad
 
-1. El paquete es bueno y agiliza muchos pasos del modelado
+> Tesis de licenciatura pregrado premiada por la  Asosiación Mexicana de Mastozoología A.C. (AMMAC)
 
-2. Cuando no hay ninguna covariable que explique la abundancia, se asume que es constante para todos los sitios. Eso puede subestimar o sobrestimar la abundancia...
+<https://www.youtube.com/watch?v=qaD9NRAg3SQ> ]
 
-3. Abundancia constante: diversidad de la localidad y no de la cámara?
+<iframe width="560" height="315" src="https://www.youtube.com/embed/qaD9NRAg3SQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
 
-4. Si se usan los índices de entropía se debe saber cómo interpretarlos ([Jost 2006](https://onlinelibrary.wiley.com/doi/abs/10.1111/j.2006.0030-1299.14714.x) ; [Jost et al 2010](https://onlinelibrary.wiley.com/doi/full/10.1111/j.1472-4642.2009.00626.x))]
+</iframe>
 
-
-## Un ejemplo de cómo se pueden usar los modelos Royle-Nichols para calcular diversidad
-
-> Tesis de pregrado premiada por la AMMAC
-
-https://www.youtube.com/watch?v=qaD9NRAg3SQ ]
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/qaD9NRAg3SQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>]
+]
 
 # FIN
