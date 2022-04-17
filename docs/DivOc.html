@@ -90,7 +90,6 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <title>Occu_comunidad: Script DivOC_script.R</title>
 
 
-  <link rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/"/>
   <link rel="icon" type="image/vnd.microsoft.icon" href="images/favicon.ico"/>
 
 
@@ -2037,6 +2036,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
   <!--/radix_placeholder_distill-->
   <script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+  <script src="site_libs/font-awesome-5.13.0/js/script.js"></script>
   <script src="site_libs/popper-2.6.0/popper.min.js"></script>
   <link href="site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
   <link href="site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
@@ -2132,6 +2132,11 @@ Scripts
 <li><a href="#fin">FIN</a></li>
 </ul>
 </nav>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<a href="https://raw.githubusercontent.com/gpandradep/Ocupacion_comunidades/main/R/DivOc_script.R">
+<button class="btn btn-danger"><i class="fa fa-save"></i> Descargar script DivOc</button>
+</a>
 </div>
 <h1 id="script-divoc_script.r">Script <code>DivOC_script.R</code></h1>
 <h1 id="instalar-y-cargar-el-paquete--">1. Instalar y cargar el paquete —-</h1>
@@ -9306,7 +9311,7 @@ AIC: 315.6987 </code></pre>
 <span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
-<p><img src="DivOc_files/figure-html5/unnamed-chunk-13-1.png" width="624" /></p>
+<p><img src="DivOc_files/figure-html5/unnamed-chunk-14-1.png" width="624" /></p>
 </div>
 <h1 id="modelando-la-diversidad--">4. Modelando la diversidad —-</h1>
 <p>Tenemos un modelo donde se estima la abundancia para cada especie, es hora de modelar la diversidad</p>
@@ -9425,7 +9430,7 @@ Diversity ~ 1 + Dcrops + Dpop_G + I(Dcrops^2)
 <pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/pkg/DiversityOccupancy/man/responseplot.diver.html'>responseplot.diver</a></span><span class='op'>(</span><span class='va'>glm.div</span>, <span class='va'>Dcrops</span><span class='op'>)</span>
 </code></pre>
 </div>
-<p><img src="DivOc_files/figure-html5/unnamed-chunk-18-1.png" width="624" /></p>
+<p><img src="DivOc_files/figure-html5/unnamed-chunk-19-1.png" width="624" /></p>
 </div>
 <p>A medida que aumenta el valor de distancia a cultivos (escalado) hay mayor diversidad ?????</p>
 <p>Relativamente fácil, para ser verdad …..</p>
@@ -10121,7 +10126,7 @@ Dpop_G
 </div>
 </div>
 <div class="layout-chunk" data-layout="l-body">
-<p><img src="DivOc_files/figure-html5/unnamed-chunk-29-1.png" width="624" /></p>
+<p><img src="DivOc_files/figure-html5/unnamed-chunk-30-1.png" width="624" /></p>
 </div>
 <h2 id="tarea">Tarea</h2>
 <ul>
@@ -10144,7 +10149,6 @@ Dpop_G
 <p><a href="https://www.youtube.com/watch?v=qaD9NRAg3SQ" class="uri">https://www.youtube.com/watch?v=qaD9NRAg3SQ</a> ]</p>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/qaD9NRAg3SQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
 </iframe>
-<p>]</p>
 <h1 id="fin">FIN</h1>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
@@ -10167,10 +10171,7 @@ Dpop_G
 <!--radix_placeholder_site_after_body-->
 <!--/radix_placeholder_site_after_body-->
 <!--radix_placeholder_appendices-->
-<div class="appendix-bottom">
-<h3 id="reuse">Reuse</h3>
-<p>Text and figures are licensed under Creative Commons Attribution <a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>. The figures that have been reused from other sources don't fall under this license and can be recognized by a note in their caption: "Figure from ...".</p>
-</div>
+<div class="appendix-bottom"></div>
 <!--/radix_placeholder_appendices-->
 <!--radix_placeholder_navigation_after_body-->
 <!--/radix_placeholder_navigation_after_body-->

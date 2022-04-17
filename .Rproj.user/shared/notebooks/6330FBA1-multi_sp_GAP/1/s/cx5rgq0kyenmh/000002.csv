@@ -1,4 +1,0 @@
-"0","load(""results/simpson.R"")
-"
-"2","Error in readChar(con, 5L, useBytes = TRUE) : cannot open the connection
-"

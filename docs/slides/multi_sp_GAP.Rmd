@@ -59,7 +59,7 @@ xaringanExtra::use_share_again()
 xaringanExtra::style_share_again(
   share_buttons = c("twitter")
 )
-
+xaringanExtra::use_tile_view()
 ```
 
 class: center, top, inverse
@@ -89,6 +89,19 @@ width="300px height= 300px"
 [`r icons::fontawesome("twitter")`@Gatorco_AP](https://twitter.com/Gatorco_AP)
 [`r icons::fontawesome("github")`@gpandradep](https://github.com/gpandradep)
 `r icons::fontawesome("envelope", style = "solid")` gpandradep@gmail.com
+---
+class: center
+
+# En este taller vamos a ver dos aproximaciones
+
+## 1. Modelar la "abundancia" con modelos jerárquicos
+
+Predecimos las "abundancias" o intensidad de las especies para usarlas como insumo en los cálculos de diversidad
+
+## 2.1 Usamos modelos jerárquicos para estimar riqueza
+
+Usamos directamente una proximación jerárquica para estimar la riqueza de especies de una localidad
+
 ---
 name: det1
 
@@ -597,3 +610,109 @@ countdown(minutes = 10, seconds = 0,
           font_size = "6em")
 ```
 ]
+
+---
+class: inverse, center
+
+
+# Otra opción elegante
+.pull-left[
+<br>
+### Es posible estimar la riqueza de especies directamente de un modelo jerárquico
+Es mejor modelar directamente la variación espacial de la riqueza mientras se considera la detección, eliminando así varias etapas de análisis
+]
+
+.pull-right[
+![](img/memediv.jpg)
+]
+
+---
+# Modelo de comunidad Dorazio & Royle (2005)
+
+Es una extensión del modelo de una especie y una temporada en donde se combinan las historias de detección de todas las especies encontradas en los sitios de muestreo
+![](img/multi.png)
+
+---
+class: center
+# ¿Cómo funciona?
+
+.pull-left[
+![](img/M-N.png)
+]
+
+.pull-right[
+<br>
+<br>
+Para entender el modelo tenemos que imaginar una comunidad con **N** especies. Al realizar un muestreo encontramos **n** especies. Cómo no sabemos que porcentaje de **n** representa **N**, debemos asumir una comunidad **M** lo suficientemente grande para contener a **N**.]
+---
+# El aumentado de datos &#x1fa84;
+
+.pull-left[
+Es un concepto utilizado bajo el enfoque bayesiano y consiste en agregar un número arbitrario de especies potenciales a la muestra de modo que $M>N$.
+<br>
+<br>
+Este número se define como $nz= M-n$, donde **n** es el número de especies observado y **nz** es el número de especies potenciales adicionadas.
+]
+
+.pull-right[
+<br>
+
+![](https://i.pinimg.com/236x/09/1b/50/091b50565f23ae2be2c4c2b533d1bd33--ugly-americans-nerd.jpg)
+]
+
+---
+
+# Este modelo tiene tres niveles o procesos
+
+### 1. Primern nivel o super parámetro
+El parámetro aumentado describe la probabilidad de que la especie "real" **k** pertenezca a **N**, dado el total de especies potenciales de **M**
+$$ \omega{_k} \sim Bernoulli(\Omega) $$
+--
+Donde $\Omega$ es la probabilidad de que la especie **k** pertenezca a la meta-comunidad de tamaño (desconocido) **N**. En ese sentido $N=M\Omega$, por lo cual al estimar $\Omega$ conoceremos **N**. Esto es posible ya que conocemos **M**.
+---
+
+### 2. Segundo nivel o proceso ecológico
+
+Describe la ocupación de las especies en cada sitio *i* siguiendo una distribución *Bernoulli*
+$$z_{ik}|w_k\sim Bernoulli(\psi_{k}\omega_k)$$
+--
+Donde $z_{k}$ son elementos de la matriz de ocupación real y $\psi_{k}$ es la probabilidad de ocupación de cada especie en cada sitio de muestreo dado que este presente en la comunidad.
+
+--
+### 3. Tercer nivel o proceso observacional
+
+El proceso de detección o logístico es similar al del modelo de ocupación básico. Puede ser *Binomial* o *Bernoulli* dependiendo del formato de los datos
+
+$$ysum_{ik}|z_{ik}\sim Binomial(J_i,p_{k}z_{ik})$$
+--
+Donde $ysum_{ik}$ indica la detección o no detección de una especie **k** en el sitio **i** en **J** número de eventos para cada sitio, con una probabilidad de $p_{k}$
+---
+# El modelo asume heterogeneidad en  psi y p
+
+El modelo asume a cada especie como un **efecto aleatorio**. Es decir, que todas provienen de una misma distribución y son similares pero no iguales. 
+
+Este supuesto hace que  especies con menos datos no difumine la información de la comunidad. Lo que proporciona mayor precisión y habilidad de predicción al parámetro aumentado.
+En términos de probabilidad los efectos aleatorios se define así para la ocupación
+$$logit(\psi_k)\sim Normal(\mu_{lpsi},\sigma^2_{lpsi})$$
+
+Y así para la detección
+
+
+$$logit(p_k)\sim Normal(\mu_{lp},\sigma^2_{lp})$$
+Donde $\mu$ y $\sigma$ son los parámetros de una distribución normal
+
+---
+# ¿Cómo se estiman las especies faltantes?
+
+El modelo usa la información de las especies presentes para estimar las especies sin datos.
+Así la probabilidad de no encontrar una especie **k** es:
+
+$$m_k=[1-\psi_{ik}[1-(1-p_k)^J]]^S$$
+
+---
+class: center
+### ¿Cómo se estiman las especies faltantes?
+
+A medida que tenemos menor $\psi_k$ o $p_k$ pues $N>n$
+
+<img src="img/mk.png" width="1200" height= "400" />

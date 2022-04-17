@@ -6,6 +6,19 @@ title: "Script DivOC_script.R"
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r echo=FALSE}
+downloadthis::download_link(
+  link = "https://raw.githubusercontent.com/gpandradep/Ocupacion_comunidades/main/R/DivOc_script.R",
+  button_label = "Descargar script DivOc",
+  button_type = "danger",
+  has_icon = TRUE,
+  icon = "fa fa-save",
+  self_contained = FALSE
+)
+```
+
+
+
 # Script `DivOC_script.R`
 
 # 1. Instalar y cargar el paquete ----
@@ -372,6 +385,5 @@ Un ejemplo de cómo se pueden usar los modelos Royle-Nichols para calcular diver
 
 </iframe>
 
-]
 
 # FIN

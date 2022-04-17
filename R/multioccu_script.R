@@ -1,33 +1,42 @@
 
+##%######################################################%##
+#                                                          #
+####              Estimación de riqueza de              ####
+####          especies # Modelos de ocupación           ####
+####            de comunidades # CamtrapR y             ####
+####        JAGS/NIMBLE # Gabriel Andrade Ponce         ####
+#                                                          #
+##%######################################################%##
 
+
+
+# 1. Cargar librerias  --------------------------------------------------
 
 # Instalar CamtrapR versión de desarrollo ---------------------------------
 
-library(remotes)
-install_github("jniedballa/camtrapR")
+remotes::install_github("jniedballa/camtrapR")
+
 
 # Nota: También requiere tener instalado Rtools (https://cran.r-project.org/bin/windows/Rtools/)
 
-# Librerías ---------------------------------------------------------------
+## Librerías 
 
 library(camtrapR)
 library(tidyverse)
+library(rjags)
 library(nimble)
 library(nimbleEcology)
 library(tictoc)
 library(beepr)
 
-
-# Datos -------------------------------------------------------------------
+# 2. Cargar datos ------------------------------------------------------------
 
 # Cargamos la tabla de registros de las especies
 registers <-  read.csv("Data/Survey/recordTable_OC.csv")
 table(registers$Species)
 
-
 # Cargamos la tabla de operación de cámaras
 CToperation <-  read.csv("Data/Survey/CTtable_OC.csv") 
-
 
 # Generamos la matríz de operación de las cámaras
 
@@ -51,7 +60,7 @@ DetHist_list <- lapply(unique(registers$Species), FUN = function(x) {
     recordDateTimeCol    = "DateTimeOriginal",
     recordDateTimeFormat  = "%d/%m/%Y",
     species              = x,     # la función reemplaza x por cada una de las especies
-    occasionLength       = 7,  # Colapso de las historias a 7 días
+    occasionLength       = 10, # Colapso de las historias a 10 ías
     day1                 = "station", #inicie en la fecha de cada estación
     datesAsOccasionNames = FALSE,
     includeEffort        = TRUE,
@@ -63,33 +72,16 @@ DetHist_list <- lapply(unique(registers$Species), FUN = function(x) {
 # Se genera una lista con cada historia de detección y el esfuerzo de muestreo, ahora le colocaremos los nombres para saber a cual especie corresponde
 names(DetHist_list) <- unique(registers$Species)
 
-# Finalmente creamos una lista nueva donde esten solo las historias de detección
+# Finalmente creamos una lista nueva donde estén solo las historias de detección
 ylist <- lapply(DetHist_list, FUN = function(x) x$detection_history)
 
 # Todas las historias deben tener el mismo número de sitios y de ocasiones de muestreo
 
 
-# Covariables -------------------------------------------------------------
+## Covariables 
 
 #Cargamos la base de covariables
-covs.data<- read_csv("Data/Covs/selectedcov_nostd180821.csv")
-
-## Seleccionamos las covariables númericas y las estandarizamos
-cov.num <- covs.data %>% 
-  dplyr::select(where(is.numeric)) %>%
-  scale() %>%  # Standardize covariates
-  as.data.frame()
-
-# Nota: se debería veríficar correlaciones o multicolinearidad entre las covariables
-
-# Ahora las no numericas
-cov.fac <- covs.data %>% 
-  dplyr::select(where(is.character))
-
-## Juntamos de nuevo
-covs <- data.frame(cov.fac, cov.num)
-
-# Las covariables deben tener el mismo número de sitios (filas) que las historias de detección
+covars <- read.csv("Data/Covs/stdcovs_OC.csv")
 
 identical(nrow(ylist[[1]]), nrow(covs)) 
 
@@ -102,9 +94,9 @@ data_list <- list(ylist    = ylist, # Historias de detección
 
 
 
-# Modelo multi-especie en nimble -----------------------------------------
+# Modelo multi-especie  -----------------------------------------
 
-# CamtrapR permite ajustar modelos multi-especie en JAGS y Nimble, nostros vamos a usar Nimble que en teoría puede ser más rápido para correr estos modelos
+# CamtrapR permite ajustar modelos multi-especie en JAGS y Nimble, nosotros vamos a usar JAGS en teoría puede ser más rápido para correr estos modelos
 
 # Se creará un txt temporal donde estarán las especificaciones del modelo en enfoque Bayesiano
 modelfile <- tempfile(fileext = ".txt")

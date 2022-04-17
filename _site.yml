@@ -5,7 +5,7 @@ description: |
   Curso modelos de ocupación para comunidades
 output_dir: "docs"
 include: ["slides/"]
-creative_commons: CC BY-SA
+#creative_commons: CC BY-SA
 navbar: 
   logo:
     image: img/fox.png

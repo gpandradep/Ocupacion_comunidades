@@ -1,12 +1,18 @@
-# Estimación de la diversidad por medio de "DiversityOccupancy"
-# Gabriel Andrade
+##%######################################################%##
+#                                                          #
+####          Estimación de la diversidad por           ####
+####  medio de "DiversityOccupancy" # Gabriel Andrade   ####
+#                                                          #
+##%######################################################%##
 
-# 1. Cargar librerias ----
+
+# 1. Cargar librerías ----
 
 # Primero instalar la paquetería
 # install.packages("DiversityOccupancy") 
 
 library(DiversityOccupancy) 
+library(camtrapR)
 library(tidyverse)
 library(hillR) # Estimar diversidad
 library(ggeffects) #gráficas de pred para glm
@@ -24,7 +30,7 @@ data <- hists %>%
 view(data)
 
 # Ahora cargamos las covariables
-covs <- read.csv("data/covs/std_covs.csv", sep = ";")
+covars <- read.csv("Data/Covs/stdcovs_OC.csv")
 
 # 3. Modelos de abundancia ----
 # 3.1 Modelos básicos ----
