@@ -21,13 +21,16 @@ remotes::install_github("jniedballa/camtrapR")
 
 ## Librerías 
 
-library(camtrapR)
-library(tidyverse)
-library(rjags)
-library(nimble)
-library(nimbleEcology)
-library(tictoc)
-library(beepr)
+library(camtrapR) # Datos de cámaras y modelos
+library(tidyverse) # Manejo de datos y gráficas
+library(rjags) # Lenguaje JAGS
+library(nimble) # LEnguaje BUGS
+library(nimbleEcology) # Nimble enfocado en jerárquicos
+library(SpadeR) # Riqueza Chao2
+library(tictoc) # Opcional de tiempo
+library(beepr) # Opcional de alertas
+library(snowfall)
+
 
 # 2. Cargar datos ------------------------------------------------------------
 
@@ -83,70 +86,104 @@ ylist <- lapply(DetHist_list, FUN = function(x) x$detection_history)
 #Cargamos la base de covariables
 covars <- read.csv("Data/Covs/stdcovs_OC.csv")
 
-identical(nrow(ylist[[1]]), nrow(covs)) 
+identical(nrow(ylist[[1]]), nrow(covars)) 
 
 
 # Base de datos para los análisis -----------------------------------------
 
 data_list <- list(ylist    = ylist, # Historias de detección
-                  siteCovs = covs, # Covariables de sitio
+                  siteCovs = covars, # Covariables de sitio
                   obsCovs  = list(effort = DetHist_list[[1]]$effort))  # agregamos el esfuerzo de muestreo como covariable de observación
 
 
 
-# Modelo multi-especie  -----------------------------------------
+# 3. 1 Modelo multi-especie  -----------------------------------------
 
-# CamtrapR permite ajustar modelos multi-especie en JAGS y Nimble, nosotros vamos a usar JAGS en teoría puede ser más rápido para correr estos modelos
+# CamtrapR permite ajustar modelos multi-especie en JAGS y Nimble, nosotros vamos a usar JAGS ya que la versión de Nimble aun no permite estimar parámetro N de riqueza de especies
 
 # Se creará un txt temporal donde estarán las especificaciones del modelo en enfoque Bayesiano
-modelfile <- tempfile(fileext = ".txt")
+modelfile <- (fileext = "modoccu.txt")
+
+# Usaremos la función ` communityModel`
 
 # Generemos el modelo
-mod.nimble <- communityModel(data_list, # la lista de datos
-                             occuCovs = list(fixed = "Dpop_G"), # La covariables de sitio
-                             detCovsObservation = list(fixed = "effort"), #Covariables de observación
+comu_model <- communityModel(data_list, # la lista de datos
+                             occuCovs = list(ranef = "Dcrops"), # La covariables de sitio
+                             detCovsObservation = list(ranef = "effort"), #Covariables de observación
                              intercepts = list(det = "ranef", occu = "ranef"),
-                             modelFile = modelfile,
-                             nimble = TRUE)      # set nimble = TRUE
+                             augmentation = c(full = 30),# Número aumentado de especies
+                             modelFile = modelfile)
 
-summary(mod.nimble)
+summary(comu_model)
 
 
 # Corremos el modelo
 
-fit.nimble.comp <- fit(mod.nimble,
-                       n.iter = 1000,
-                       n.burnin = 500,
-                       chains = 3,
-                       compile = TRUE, 
+fit.commu <- fit(comu_model,
+                 n.iter = 22000, 
+                 n.burnin = 2000,
+                 thin = 2,
+                 chains = 3,
+                 cores = 3,
+                 quiet = T
 );beep(sound = 4)
 
+# Duración 56 min aprox
 
+save(fit.commu, file="results/DR_result.R") # guardamos los resultados para no correr de nuevo
 
 # Resultados --------------------------------------------------------------
 
-summary(fit.nimble.comp)
+results <- summary(fit.commu)[["statistics"]]
 
 
-plot_effects(mod.nimble,
-             fit.nimble.comp,
+plot_effects(comu_model,
+             fit.commu,
              submodel = "state")
 
 
-plot_effects(mod.nimble,
-             fit.nimble.comp,
+plot_effects(comu_model,
+             fit.commu,
              submodel = "det")
 
 
-plot_coef(mod.nimble,
-          fit.nimble.comp,
-          submodel = "state",
-          combine = TRUE)
+plot_coef(comu_model,
+          fit.commu,
+          submodel = "state")
 
 
-plot_coef(mod.nimble,
-          fit.nimble.comp,
+plot_coef(comu_model,
+          fit.commu,
           submodel = "det")
 
 
-plot(fit.nimble.comp)
+
+# Formatear los datos a un vector de frecuencia
+abu_Chao <- yaug %>% 
+  select(1:nspec) %>%  # seleccionar especies observadas
+  t() %>% # trasponer la tabla
+  rowSums(. , na.rm = T) %>% # sumar las filas
+  as.data.frame()
+
+# Calcular la riqueza con estimadores no paramétricos
+chao_sp <- ChaoSpecies(abu_Chao, datatype = "abundance")
+
+NICHao <- chao_sp$Species_table[5,c(1,3,4)] # Extraer valores de IChao
+Nocu <- mod_result$summary[862,c(1,4,7)] # Valores del modelo DR
+
+# Unir en un solo dataframe
+Nplotdata <- rbind(IChao=NICHao, DR.mod=Nocu) %>% 
+  as.data.frame() %>% 
+  rownames_to_column(.)
+
+windowsFonts(TNR = windowsFont("Times New Roman")) # Fuentes
+
+# Gráfico para comparar la riqueza estimada
+plotN <- ggplot(Nplotdata, aes(x=rowname, y= Estimate, col=rowname))+
+  geom_point(aes(shape=rowname),size=3)+
+  geom_errorbar(aes(ymin= Nplotdata$`95%Lower`, ymax= Nplotdata$`95%Upper`), width=.3, size=1)+
+  labs(x="Estimador de riqueza",y="Número de especies estimado", title = "Diferencia de los estimadores de riqueza")+
+  theme_classic()+
+  theme(text=element_text(size = 13, family = "TNR"), plot.title = element_text(hjust= 0.5), legend.position = "none")
+
+plotN

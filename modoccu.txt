@@ -1,0 +1,169 @@
+model{
+### PRIORS 
+## occupancy intercept estimate of community (community mean)
+beta0.mean ~ dnorm(0, 0.05)
+beta0.tau ~ dgamma(0.1, 0.1)
+beta0.sigma <- sqrt(1 / beta0.tau)
+
+## detection intercept estimate of community (community mean)
+alpha0.mean ~ dnorm(0, 0.05)
+alpha0.tau ~ dgamma(0.1, 0.1)
+alpha0.sigma <- sqrt(1 / alpha0.tau)
+
+## Data augmentation parameter
+omega ~ dunif(0, 1)
+
+## Continuous site covariates on detection - Fixed effects
+# < empty > 
+
+## Continuous site covariates on detection - Independent effects
+# < empty > 
+
+## Continuous site covariates on detection - with random effects
+# < empty > 
+
+## Categorical site covariates on detection - Fixed effect
+# < empty > 
+
+## Categorical site covariates on detection - with random effects
+# < empty > 
+
+## Continuous observation-level covariates on detection - Fixed effects
+# < empty > 
+
+## Continuous observation-level covariates on detection - with random effects
+# Observation Covariate: effort
+alpha.obs.ranef.cont.effort.mean ~ dnorm(0, 0.05)
+alpha.obs.ranef.cont.effort.tau ~ dgamma(0.1, 0.1)
+alpha.obs.ranef.cont.effort.sigma <- sqrt(1 / alpha.obs.ranef.cont.effort.tau)
+
+## Categorical observation-level covariates on detection - Fixed effect
+# < empty > 
+
+## Categorical observation-level covariates on detection - with random effects
+# < empty > 
+
+## Continuous site covariates on Occupancy - Fixed effects
+# < empty > 
+
+## Continuous site covariates on Occupancy - Independent effects
+# < empty > 
+
+## Continuous site covariates on occupancy - with random effects
+# Covariate: Dcrops|Species
+
+beta.ranef.cont.Dcrops.mean ~ dnorm(0, 0.05)
+beta.ranef.cont.Dcrops.tau ~ dgamma(0.1, 0.1)
+beta.ranef.cont.Dcrops.sigma <- sqrt(1 / beta.ranef.cont.Dcrops.tau)
+
+
+## Categorical site covariates on Occupancy - Fixed effects
+# < empty > 
+
+## Categorical site covariates on occupancy - with random effects
+# < empty > 
+
+# Species-station random effect on detection probability
+# < empty > 
+
+## Draws of random effects other than species
+
+
+### MODEL LOOPS 
+
+# species loop
+for (i in 1:M){
+##  Draw species-specific random effect parameters from community distributions
+# intercepts:
+beta0[i] ~ dnorm(beta0.mean, beta0.tau)
+alpha0[i] ~ dnorm(alpha0.mean, alpha0.tau)
+
+# Metacommunity membership indicator (data augmentation)
+w[i] ~ dbern(omega)
+
+
+
+
+# categorical occupancy covariates: no random effect of species
+
+
+# continuous detection covariates with random effects:
+alpha.obs.ranef.cont.effort[i] ~ dnorm(alpha.obs.ranef.cont.effort.mean, alpha.obs.ranef.cont.effort.tau)
+
+
+# categorical observation covariates: no random effect of species
+
+
+# continuous occupancy covariate with random effects: Dcrops|Species
+beta.ranef.cont.Dcrops[i] ~ dnorm(beta.ranef.cont.Dcrops.mean, beta.ranef.cont.Dcrops.tau)
+
+
+# categorical occupancy covariates: no random effect of species
+
+# station loop
+for (j in 1:J){
+
+# Occupancy probability formula
+
+logit.psi[i,j] <- beta0[i] + beta.ranef.cont.Dcrops[i] * Dcrops[j]
+psi[i,j] <- exp(logit.psi[i,j]) / (exp(logit.psi[i,j]) + 1)
+z[i,j] ~ dbern(psi[i, j] * w[i])
+
+# No random effect of species and station on detection probability
+# occasion loop
+for (k in 1:maxocc){
+# Detection probability formula
+logit.p[i,j,k] <- alpha0[i] + alpha.obs.ranef.cont.effort[i] * effort[j, k]
+
+# convert p to real scale
+p[i,j,k] <- exp(logit.p[i,j,k]) / (1+exp(logit.p[i,j,k]))
+
+# Ensure occasions without effort have p = 0
+p.eff[i,j,k] <- z[i,j] * p[i,j,k] * effort_binary[j,k]
+y[i,j,k] ~ dbern(p.eff[i,j,k])
+
+### generate new data from model under consideration
+new.y[i,j,k] ~ dbern(p.eff[i,j,k])
+}   # close occasion loop
+
+### calculate Freeman-Tukey residuals for real and new data
+res[i,j] <- (sqrt(sum(y[i,j, 1:maxocc])) - sqrt(sum(p.eff[i,j, 1:maxocc])))^2
+new.res[i,j] <- (sqrt(sum(new.y[i,j, 1:maxocc])) - sqrt(sum(p.eff[i,j, 1:maxocc])))^2
+}   # close station loop
+
+### sum residuals over stations
+R2[i] <- sum(res[i, 1:J])
+new.R2[i] <- sum(new.res[i, 1:J])
+
+### species-level Bayesian p-value
+Bpvalue_species[i] <- R2[i] > new.R2[i]
+
+
+### total number of occupied stations for each species
+Ntot[i] <- sum(z[i, 1:J])
+
+### species is part of community?
+occt[i] <- 1 - equals(Ntot[i],0)
+
+### Number of stations occupied
+Nstations[i] <- sum(z[i, 1:J])/J
+
+### Does species occur at all or not at each station
+occ[i] <- 1 - equals(Nstations[i], 0)
+}    # close species loop
+
+###sum residuals over observed species
+R3 <- sum(R2[1:M])
+new.R3 <- sum(new.R2[1:M])
+Bpvalue <- R3 > new.R3
+
+### total number of species
+Nspecies <- sum(occt[1:M])
+
+### Total number of unobserved species
+n0 <- sum(w[(nspec+1):(nspec+nz)])
+
+### Total metacommunity size
+Ntotal <- sum(w[])
+
+}

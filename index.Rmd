@@ -41,7 +41,8 @@ install.packages(c("DiversityOccupancy", # Diversidad y ocupación
                    "hillR", # Perfiles de diversidad
                    "ggeffects", #Gráficos de glms
                    "beepr", #opcional 
-                   "tictoc" #opcional
+                   "tictoc", #opcional
+                   "SpadeR" # Riqueza de especies
                    ))
 ```
 
