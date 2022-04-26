@@ -70,7 +70,6 @@ background-size: cover
 # `r rmarkdown::metadata$title`
 # `r rmarkdown::metadata$subtitle`
 
-
 ---
 
 name: hola
@@ -84,7 +83,6 @@ width="300px height= 300px"
 
 ### Estudiante de Doctorado
 .fade[Instituto de Ecología A.C, Xalapa, Ver., Mex]
-
 
 [`r icons::fontawesome("twitter")`@Gatorco_AP](https://twitter.com/Gatorco_AP)
 [`r icons::fontawesome("github")`@gpandradep](https://github.com/gpandradep)

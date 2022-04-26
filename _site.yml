@@ -20,6 +20,7 @@ navbar:
         href: multioccu.html
 output: 
   distill::distill_article:
-    toc: true 
+    toc: true
+    toc_float: true
   
 

@@ -70,7 +70,6 @@ background-size: cover
 # `r rmarkdown::metadata$title`
 # `r rmarkdown::metadata$subtitle`
 
-
 ---
 
 name: hola

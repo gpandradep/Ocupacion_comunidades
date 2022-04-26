@@ -21,6 +21,9 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ## Bienvenidos 🙌
 
+![](img/divers.jpg)
+> Forest -Earth Series de Alice Shirley]
+
 En esta página encontrarán las presentaciones y los scripts para los ejercicios de modelos de ocupación de comunidades.
 
 Es importante que sigan las instrucciones e instalen paquetes y adicionales previo al taller. De lo contrario muy probablemente se queden atrás.
@@ -160,7 +163,7 @@ covars <- read.csv("carpeta donde guartaste covariables/covars.csv")
 
 ## Bibliografía
 
-Insertar cuando este el link
+Puedes descargar la bibliografía en el siguiente [enlace](https://drive.google.com/file/d/149D4DUB0MLrkVTGStQUO9TtACr3Bt5SC/view?usp=sharing)
 
 
 ## Adicional {.appendix}

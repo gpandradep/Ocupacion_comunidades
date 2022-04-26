@@ -9,7 +9,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r echo=FALSE}
 downloadthis::download_link(
-  link = "https://raw.githubusercontent.com/gpandradep/Ocupacion_comunidades/main/R/DivOc_script.R",
+  link = "https://github.com/gpandradep/Ocupacion_comunidades/blob/main/R/multioccu_script.R",
   button_label = "Descargar script multioccu",
   button_type = "danger",
   has_icon = TRUE,

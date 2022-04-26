@@ -2117,23 +2117,23 @@ Scripts
 <li><a href="#cargar-los-datos--">2. Cargar los datos —-</a>
 <ul>
 <li><a href="#formato-de-los-datos">Formato de los datos</a></li>
-<li><a href="#covariables">covariables</a></li>
 </ul></li>
 <li><a href="#modelo-multi-especie--">3. Modelo multi-especie —-</a>
 <ul>
-<li><a href="#creando-el-modelo">Creando el modelo</a>
-<ul>
+<li><a href="#creando-el-modelo">Creando el modelo</a></li>
 <li><a href="#resultados-del-modelo">3.1 Resultados del modelo</a></li>
 <li><a href="#la-riqueza-de-especies">3.2 La riqueza de especies</a></li>
 </ul></li>
-<li><a href="#estimador-clásico">4. Estimador clásico</a></li>
-<li><a href="#otros-ejemplos">5.1 Otros ejemplos</a></li>
+<li><a href="#estimador-clásico">4. Estimador clásico</a>
+<ul>
+<li><a href="#ocupación-multi-specie-vs-ichao">Ocupación multi-specie vs IChao</a></li>
 </ul></li>
+<li><a href="#otros-ejemplos">5.1 Otros ejemplos</a></li>
 </ul>
 </nav>
 </div>
 <div class="layout-chunk" data-layout="l-body">
-<a href="https://raw.githubusercontent.com/gpandradep/Ocupacion_comunidades/main/R/DivOc_script.R">
+<a href="https://github.com/gpandradep/Ocupacion_comunidades/blob/main/R/multioccu_script.R">
 <button class="btn btn-danger"><i class="fa fa-save"></i> Descargar script multioccu</button>
 </a>
 </div>
@@ -2217,7 +2217,7 @@ Scripts
 </div>
 </div>
 <p>Terminaremos con el objeto ylist que cotiente todas las historias de detección</p>
-<h2 id="covariables">covariables</h2>
+<h4 id="covariables">covariables</h4>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='co'>## Covariables </span>
@@ -2330,7 +2330,7 @@ Scripts
   .. .. ..$ : chr [1:19] &quot;o1&quot; &quot;o2&quot; &quot;o3&quot; &quot;o4&quot; ...</code></pre>
 </div>
 <h1 id="modelo-multi-especie--">3. Modelo multi-especie —-</h1>
-<h2 id="creando-el-modelo">Creando el modelo</h2>
+<h3 id="creando-el-modelo">Creando el modelo</h3>
 <p>CamtrapR permite ajustar modelos multi-especie en JAGS y Nimble (es decir en lenguaje BUGS), nosotros vamos a usar JAGS ya que la versión de Nimble aun no permite estimar parámetro N de riqueza de especies</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -2486,14 +2486,15 @@ Ntotal   1.001335   1.002693</code></pre>
 </div>
 <p>La prueba de Gelman-Rubin debe ser ~1 para considerar que hay buena convergencia. Aunque tenemos un valor bueno para Ntotal, hay varios valores de omega con NA, eso puede estar causando los problemas.</p>
 <p>Ajustamos nuestro primer modelo de multi-especie.</p>
-<p>Recordemos que <strong>N</strong> es la riqueza estimada a un <strong>área mayor</strong> de nuestro muestreo (área que no conocemos) .pull-left[ ### <strong>N</strong> depende de si cumplimos los supuestos del área - El muestreo es aleatorio. El área de muestreo debe <strong>representar la región</strong> - En caso contrario N representa el número de especies un área hipotética con <strong>las mismas condiciones</strong> - Si la región es pequeña, <strong>N</strong> puede ser <strong>sobre-estimada</strong></p>
+<p>Recordemos que <strong>N</strong> es la riqueza estimada a un <strong>área mayor</strong> de nuestro muestreo (área que no conocemos)</p>
+<p><strong>N</strong> depende de si cumplimos los supuestos del área - El muestreo es aleatorio. El área de muestreo debe <strong>representar la región</strong> - En caso contrario N representa el número de especies un área hipotética con <strong>las mismas condiciones</strong> - Si la región es pequeña, <strong>N</strong> puede ser <strong>sobre-estimada</strong></p>
 <p>y de las especies - Datos de <strong>insectos</strong> no sirven para predecir aves - Predicción a especies que sean <strong>detectados de manera similar</strong> con la metodología usada.</p>
 <p>.footnote[Guillera-Arroita, G, Kéry, M, Lahoz-Monfort, JJ. Inferring species richness using multispecies occupancy modeling: Estimation performance and interpretation. Ecol Evol. 2019; 9: 780– 792. <a href="https://doi.org/10.1002/ece3.4821" class="uri">https://doi.org/10.1002/ece3.4821</a>] ]</p>
-<h2 id="estimador-clásico">4. Estimador clásico</h2>
+<h1 id="estimador-clásico">4. Estimador clásico</h1>
 <p>¿Será mejor que un estimador no-paramétrico?</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='co'>## 5.1 Riqueza con Chao2----</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Riqueza con Chao2----</span>
 
 <span class='co'># Formatear los datos a un vector de frecuencia</span>
 <span class='va'>inci_Chao</span> <span class='op'>&lt;-</span> <span class='va'>ylist</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>  <span class='co'># historias de captura</span>
@@ -2513,7 +2514,11 @@ Ntotal   1.001335   1.002693</code></pre>
 
 <span class='va'>NIChao</span> <span class='op'>&lt;-</span> <span class='va'>chao_sp</span><span class='op'>$</span><span class='va'>Species_table</span><span class='op'>[</span><span class='fl'>4</span>,<span class='fu'><a href='https://rdrr.io/pkg/nimble/man/nimble-R-functions.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>3</span>,<span class='fl'>4</span><span class='op'>)</span><span class='op'>]</span> <span class='co'># Extraer valores de IChao</span>
 
-<span class='va'>Nocu</span><span class='op'>&lt;-</span> <span class='fu'><a href='https://mc-stan.org/bayesplot/reference/MCMC-intervals.html'>mcmc_intervals</a></span><span class='op'>(</span><span class='va'>fit.commu</span>, pars <span class='op'>=</span> <span class='st'>"Ntotal"</span>, prob <span class='op'>=</span> <span class='fl'>0.95</span>,prob_outer <span class='op'>=</span> <span class='fl'>0.99</span>, point_est <span class='op'>=</span> <span class='st'>"mean"</span><span class='op'>)</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>  <span class='co'># Extraer valores del bayes plot</span>
+<span class='va'>Nocu</span><span class='op'>&lt;-</span> <span class='fu'><a href='https://mc-stan.org/bayesplot/reference/MCMC-intervals.html'>mcmc_intervals</a></span><span class='op'>(</span><span class='va'>fit.commu</span>, 
+                      pars <span class='op'>=</span> <span class='st'>"Ntotal"</span>, 
+                      prob <span class='op'>=</span> <span class='fl'>0.95</span>,
+                      prob_outer <span class='op'>=</span> <span class='fl'>0.99</span>, 
+                      point_est <span class='op'>=</span> <span class='st'>"mean"</span><span class='op'>)</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>  <span class='co'># Extraer valores del bayes plot</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>m</span>,<span class='va'>l</span>,<span class='va'>h</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='co'># Seleccionar columnas</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename</a></span><span class='op'>(</span><span class='st'>"Estimate"</span><span class='op'>=</span> <span class='va'>m</span>, <span class='co'># Renombrarlas</span>
          <span class='st'>"95%Lower"</span><span class='op'>=</span> <span class='va'>l</span>,
@@ -2547,7 +2552,7 @@ Ntotal   1.001335   1.002693</code></pre>
 <div class="layout-chunk" data-layout="l-body">
 <p><img src="multioccu_files/figure-html5/unnamed-chunk-26-1.png" width="624" /></p>
 </div>
-<p>Ocupación multi-specie vs IChao</p>
+<h3 id="ocupación-multi-specie-vs-ichao">Ocupación multi-specie vs IChao</h3>
 <p><img src="img/pildoras.jpg" /></p>
 <p>.footnote[ Tingley, MW, Nadeau, CP, Sandor, ME. Multi-species occupancy models as robust estimators of community richness. Methods Ecol Evol. 2020; 11: 633– 642. <a href="https://doi.org/10.1111/2041-210X.13378" class="uri">https://doi.org/10.1111/2041-210X.13378</a>]</p>
 <p>Ambos lo hacen muy mal cuando <span class="math inline">\(\psi_k\)</span> es muy <strong>bajo</strong></p>
@@ -2555,9 +2560,9 @@ Ntotal   1.001335   1.002693</code></pre>
 <li><strong>Chao</strong> siempre estará sesgado al valor <strong>más bajo de N</strong> por no considerar la detección (De hecho Chao lo reconoce)</li>
 <li>Los modelos de ocupación son muy <strong>hambrientos</strong> de datos</li>
 <li>Tienes que saber “<strong>programar</strong>” para ajustar modelos multi-specie</li>
-<li>Todavía hay algunos bmoles con la heterogeneidad y los prior (Guillera-Arroita et al. 2019) ]</li>
+<li>Todavía hay algunos bmoles con la heterogeneidad y los prior (Guillera-Arroita et al. 2019)</li>
 </ul>
-<h2 id="otros-ejemplos">5.1 Otros ejemplos</h2>
+<h1 id="otros-ejemplos">5.1 Otros ejemplos</h1>
 <p>Las posibilidades son infinitas 1. Estructura de la diversidad- Número efectivo de especies <img src="img/dethill.png" /></p>
 <ol type="1">
 <li>Estructura de la diversidad- Número efectivo de especies</li>
