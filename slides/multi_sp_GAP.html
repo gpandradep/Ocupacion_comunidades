@@ -4,7 +4,7 @@
     <title>Modelos de ocupación multi-especie</title>
     <meta charset="utf-8" />
     <meta name="author" content="Gabriel Andrade Ponce" />
-    <meta name="date" content="2022-04-16" />
+    <meta name="date" content="2022-04-25" />
     <script src="multi_sp_GAP_files/header-attrs/header-attrs.js"></script>
     <script src="multi_sp_GAP_files/clipboard/clipboard.min.js"></script>
     <link href="multi_sp_GAP_files/shareon/shareon.min.css" rel="stylesheet" />
@@ -13,6 +13,15 @@
     <script src="multi_sp_GAP_files/xaringanExtra-shareagain/shareagain.js"></script>
     <link href="multi_sp_GAP_files/tile-view/tile-view.css" rel="stylesheet" />
     <script src="multi_sp_GAP_files/tile-view/tile-view.js"></script>
+    <script src="multi_sp_GAP_files/htmlwidgets/htmlwidgets.js"></script>
+    <link href="multi_sp_GAP_files/datatables-css/datatables-crosstalk.css" rel="stylesheet" />
+    <script src="multi_sp_GAP_files/datatables-binding/datatables.js"></script>
+    <script src="multi_sp_GAP_files/jquery/jquery-3.6.0.min.js"></script>
+    <link href="multi_sp_GAP_files/dt-core/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="multi_sp_GAP_files/dt-core/css/jquery.dataTables.extra.css" rel="stylesheet" />
+    <script src="multi_sp_GAP_files/dt-core/js/jquery.dataTables.min.js"></script>
+    <link href="multi_sp_GAP_files/crosstalk/css/crosstalk.min.css" rel="stylesheet" />
+    <script src="multi_sp_GAP_files/crosstalk/js/crosstalk.min.js"></script>
     <link href="multi_sp_GAP_files/countdown/countdown.css" rel="stylesheet" />
     <script src="multi_sp_GAP_files/countdown/countdown.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
@@ -41,19 +50,18 @@ class: center, middle
 
 ## Gabriel Andrade Ponce 🇨🇴
 
-&lt;img style="border-radius: 50%;" src="img/composition.jpg"
+&lt;img style="border-radius: 50%;" src="img/jc_me.png"
 width="300px height= 300px"
 /&gt;
 
 ### Estudiante de Doctorado
 .fade[Instituto de Ecología A.C, Xalapa, Ver., Mex]
 
-
 [&lt;svg viewBox="0 0 512 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"&gt;&lt;/path&gt;&lt;/svg&gt;@Gatorco_AP](https://twitter.com/Gatorco_AP)
 [&lt;svg viewBox="0 0 496 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"&gt;&lt;/path&gt;&lt;/svg&gt;@gpandradep](https://github.com/gpandradep)
 &lt;svg viewBox="0 0 512 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M502.3 190.8c3.9-3.1 9.7-.2 9.7 4.7V400c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V195.6c0-5 5.7-7.8 9.7-4.7 22.4 17.4 52.1 39.5 154.1 113.6 21.1 15.4 56.7 47.8 92.2 47.6 35.7.3 72-32.8 92.3-47.6 102-74.1 131.6-96.3 154-113.7zM256 320c23.2.4 56.6-29.2 73.4-41.4 132.7-96.3 142.8-104.7 173.4-128.7 5.8-4.5 9.2-11.5 9.2-18.9v-19c0-26.5-21.5-48-48-48H48C21.5 64 0 85.5 0 112v19c0 7.4 3.4 14.3 9.2 18.9 30.6 23.9 40.7 32.4 173.4 128.7 16.8 12.2 50.2 41.8 73.4 41.4z"&gt;&lt;/path&gt;&lt;/svg&gt; gpandradep@gmail.com
 ---
-class: center, middle
+class: center
 
 # En este taller vamos a ver dos aproximaciones
 
@@ -61,7 +69,7 @@ class: center, middle
 
 Predecimos las "abundancias" o intensidad de las especies para usarlas como insumo en los cálculos de diversidad
 
-## 2.1 Usamos modelos jerárquicos para estimar riqueza
+## 2. Usamos modelos jerárquicos para estimar riqueza
 
 Usamos directamente una proximación jerárquica para estimar la riqueza de especies de una localidad
 
@@ -249,2294 +257,8 @@ data &lt;- ylist %&gt;% # Lista con los datos
 
 Obtenemos una matriz con el mismo número de sitios **67** y *19* eventos X *19* especies = 323 columnas 
 
-&lt;table&gt;
- &lt;thead&gt;
-  &lt;tr&gt;
-   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o1 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o2 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o3 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o4 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o5 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o6 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o7 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o8 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o9 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o10 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o11 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o12 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o13 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o14 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o15 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o16 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o17 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o18 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o19 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o1 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o2 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o3 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o4 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o5 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o6 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o7 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o8 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o9 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o10 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o11 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o12 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o13 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o14 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o15 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o16 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o17 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o18 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o19 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o1 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o2 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o3 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o4 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o5 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o6 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o7 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o8 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o9 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o10 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o11 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o12 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o13 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o14 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o15 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o16 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o17 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o18 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o19 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o1 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o2 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o3 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o4 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o5 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o6 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o7 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o8 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o9 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o10 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o11 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o12 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o13 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o14 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o15 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o16 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o17 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o18 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o19 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o1 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o2 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o3 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o4 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o5 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o6 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o7 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o8 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o9 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o10 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o11 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o12 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o13 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o14 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o15 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o16 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o17 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o18 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o19 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o1 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o2 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o3 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o4 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o5 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o6 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o7 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o8 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o9 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o10 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o11 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o12 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o13 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o14 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o15 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o16 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o17 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o18 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o19 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o1 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o2 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o3 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o4 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o5 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o6 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o7 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o8 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o9 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o10 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o11 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o12 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o13 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o14 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o15 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o16 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o17 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o18 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o19 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o1 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o2 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o3 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o4 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o5 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o6 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o7 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o8 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o9 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o10 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o11 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o12 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o13 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o14 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o15 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o16 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o17 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o18 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o19 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o1 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o2 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o3 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o4 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o5 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o6 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o7 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o8 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o9 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o10 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o11 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o12 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o13 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o14 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o15 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o16 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o17 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o18 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o19 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o1 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o2 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o3 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o4 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o5 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o6 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o7 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o8 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o9 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o10 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o11 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o12 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o13 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o14 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o15 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o16 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o17 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o18 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o19 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o1 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o2 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o3 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o4 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o5 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o6 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o7 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o8 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o9 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o10 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o11 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o12 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o13 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o14 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o15 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o16 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o17 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o18 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o19 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o1 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o2 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o3 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o4 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o5 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o6 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o7 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o8 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o9 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o10 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o11 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o12 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o13 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o14 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o15 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o16 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o17 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o18 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o19 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o1 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o2 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o3 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o4 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o5 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o6 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o7 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o8 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o9 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o10 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o11 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o12 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o13 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o14 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o15 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o16 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o17 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o18 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o19 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o1 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o2 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o3 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o4 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o5 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o6 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o7 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o8 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o9 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o10 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o11 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o12 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o13 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o14 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o15 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o16 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o17 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o18 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o19 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o1 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o2 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o3 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o4 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o5 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o6 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o7 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o8 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o9 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o10 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o11 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o12 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o13 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o14 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o15 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o16 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o17 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o18 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o19 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o1 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o2 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o3 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o4 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o5 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o6 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o7 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o8 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o9 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o10 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o11 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o12 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o13 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o14 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o15 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o16 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o17 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o18 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o19 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o1 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o2 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o3 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o4 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o5 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o6 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o7 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o8 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o9 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o10 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o11 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o12 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o13 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o14 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o15 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o16 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o17 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o18 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; o19 &lt;/th&gt;
-  &lt;/tr&gt;
- &lt;/thead&gt;
-&lt;tbody&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; C1T2P1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; C1T2P11 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; C1T2P21 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; C1T4P1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; C1T4P11 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; C1T4P21 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
+<div id="htmlwidget-10117ee25d0d3f501149" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-10117ee25d0d3f501149">{"x":{"filter":"none","vertical":false,"data":[["C1T2P1","C1T2P11","C1T2P21","C1T4P1","C1T4P11","C1T4P21"],[0,null,0,0,1,0],[0,null,0,0,0,0],[0,null,0,0,1,0],[0,1,0,0,0,0],[0,0,0,0,0,0],[0,1,0,0,0,0],[1,0,0,0,1,0],[0,1,0,0,1,0],[0,0,1,0,1,0],[0,0,0,0,0,0],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[0,null,0,0,0,0],[0,null,0,0,0,0],[0,null,0,0,0,0],[0,0,0,0,0,0],[1,0,0,0,0,0],[1,0,0,0,0,0],[1,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,1,0],[0,0,0,0,0,0],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[1,null,0,0,1,0],[1,null,0,0,1,0],[1,null,0,0,1,0],[1,1,0,0,1,0],[1,0,0,0,1,0],[1,1,1,0,1,0],[1,1,1,0,1,0],[1,1,1,0,1,0],[1,1,1,0,1,0],[0,0,0,0,0,0],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[1,null,0,0,1,0],[0,null,0,0,1,0],[0,null,0,0,1,0],[0,0,0,0,1,0],[0,0,0,0,1,0],[0,1,1,0,0,0],[1,1,1,0,1,0],[0,0,0,0,1,0],[1,1,1,0,1,0],[0,0,0,0,0,0],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[0,null,0,0,0,0],[0,null,0,0,0,0],[0,null,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,1,0,0,0,0],[0,0,0,0,0,0],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[0,null,0,0,0,0],[0,null,0,0,0,0],[0,null,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,1,0,0,0,0],[0,0,0,0,0,0],[0,0,1,0,0,0],[0,0,0,0,0,0],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[0,null,1,0,1,0],[0,null,1,0,1,0],[0,null,1,1,1,0],[0,0,0,0,1,0],[0,0,1,0,0,0],[0,0,0,0,1,0],[0,1,0,0,0,0],[0,0,1,0,1,0],[0,1,1,0,1,0],[0,0,0,0,0,0],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[0,null,0,0,0,0],[0,null,0,0,0,0],[0,null,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,1,0,0,0],[0,0,0,0,1,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[0,null,0,0,0,0],[0,null,0,0,0,0],[0,null,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,1,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[0,null,0,0,1,0],[0,null,0,0,0,0],[0,null,0,0,1,0],[0,0,0,0,1,0],[0,0,0,0,0,0],[0,0,0,0,1,0],[0,0,0,0,1,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[0,null,0,0,0,0],[0,null,0,0,0,0],[0,null,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[0,null,0,0,0,0],[0,null,0,0,0,0],[0,null,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[0,null,0,0,0,0],[0,null,0,0,0,0],[0,null,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[0,null,0,0,0,0],[0,null,0,0,0,0],[0,null,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[0,null,0,0,0,0],[0,null,0,0,0,0],[0,null,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[0,null,0,0,0,0],[0,null,0,0,0,0],[0,null,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[0,null,0,0,0,0],[0,null,0,0,0,0],[0,null,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null,null,null,null]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>o1<\/th>\n      <th>o2<\/th>\n      <th>o3<\/th>\n      <th>o4<\/th>\n      <th>o5<\/th>\n      <th>o6<\/th>\n      <th>o7<\/th>\n      <th>o8<\/th>\n      <th>o9<\/th>\n      <th>o10<\/th>\n      <th>o11<\/th>\n      <th>o12<\/th>\n      <th>o13<\/th>\n      <th>o14<\/th>\n      <th>o15<\/th>\n      <th>o16<\/th>\n      <th>o17<\/th>\n      <th>o18<\/th>\n      <th>o19<\/th>\n      <th>o1<\/th>\n      <th>o2<\/th>\n      <th>o3<\/th>\n      <th>o4<\/th>\n      <th>o5<\/th>\n      <th>o6<\/th>\n      <th>o7<\/th>\n      <th>o8<\/th>\n      <th>o9<\/th>\n      <th>o10<\/th>\n      <th>o11<\/th>\n      <th>o12<\/th>\n      <th>o13<\/th>\n      <th>o14<\/th>\n      <th>o15<\/th>\n      <th>o16<\/th>\n      <th>o17<\/th>\n      <th>o18<\/th>\n      <th>o19<\/th>\n      <th>o1<\/th>\n      <th>o2<\/th>\n      <th>o3<\/th>\n      <th>o4<\/th>\n      <th>o5<\/th>\n      <th>o6<\/th>\n      <th>o7<\/th>\n      <th>o8<\/th>\n      <th>o9<\/th>\n      <th>o10<\/th>\n      <th>o11<\/th>\n      <th>o12<\/th>\n      <th>o13<\/th>\n      <th>o14<\/th>\n      <th>o15<\/th>\n      <th>o16<\/th>\n      <th>o17<\/th>\n      <th>o18<\/th>\n      <th>o19<\/th>\n      <th>o1<\/th>\n      <th>o2<\/th>\n      <th>o3<\/th>\n      <th>o4<\/th>\n      <th>o5<\/th>\n      <th>o6<\/th>\n      <th>o7<\/th>\n      <th>o8<\/th>\n      <th>o9<\/th>\n      <th>o10<\/th>\n      <th>o11<\/th>\n      <th>o12<\/th>\n      <th>o13<\/th>\n      <th>o14<\/th>\n      <th>o15<\/th>\n      <th>o16<\/th>\n      <th>o17<\/th>\n      <th>o18<\/th>\n      <th>o19<\/th>\n      <th>o1<\/th>\n      <th>o2<\/th>\n      <th>o3<\/th>\n      <th>o4<\/th>\n      <th>o5<\/th>\n      <th>o6<\/th>\n      <th>o7<\/th>\n      <th>o8<\/th>\n      <th>o9<\/th>\n      <th>o10<\/th>\n      <th>o11<\/th>\n      <th>o12<\/th>\n      <th>o13<\/th>\n      <th>o14<\/th>\n      <th>o15<\/th>\n      <th>o16<\/th>\n      <th>o17<\/th>\n      <th>o18<\/th>\n      <th>o19<\/th>\n      <th>o1<\/th>\n      <th>o2<\/th>\n      <th>o3<\/th>\n      <th>o4<\/th>\n      <th>o5<\/th>\n      <th>o6<\/th>\n      <th>o7<\/th>\n      <th>o8<\/th>\n      <th>o9<\/th>\n      <th>o10<\/th>\n      <th>o11<\/th>\n      <th>o12<\/th>\n      <th>o13<\/th>\n      <th>o14<\/th>\n      <th>o15<\/th>\n      <th>o16<\/th>\n      <th>o17<\/th>\n      <th>o18<\/th>\n      <th>o19<\/th>\n      <th>o1<\/th>\n      <th>o2<\/th>\n      <th>o3<\/th>\n      <th>o4<\/th>\n      <th>o5<\/th>\n      <th>o6<\/th>\n      <th>o7<\/th>\n      <th>o8<\/th>\n      <th>o9<\/th>\n      <th>o10<\/th>\n      <th>o11<\/th>\n      <th>o12<\/th>\n      <th>o13<\/th>\n      <th>o14<\/th>\n      <th>o15<\/th>\n      <th>o16<\/th>\n      <th>o17<\/th>\n      <th>o18<\/th>\n      <th>o19<\/th>\n      <th>o1<\/th>\n      <th>o2<\/th>\n      <th>o3<\/th>\n      <th>o4<\/th>\n      <th>o5<\/th>\n      <th>o6<\/th>\n      <th>o7<\/th>\n      <th>o8<\/th>\n      <th>o9<\/th>\n      <th>o10<\/th>\n      <th>o11<\/th>\n      <th>o12<\/th>\n      <th>o13<\/th>\n      <th>o14<\/th>\n      <th>o15<\/th>\n      <th>o16<\/th>\n      <th>o17<\/th>\n      <th>o18<\/th>\n      <th>o19<\/th>\n      <th>o1<\/th>\n      <th>o2<\/th>\n      <th>o3<\/th>\n      <th>o4<\/th>\n      <th>o5<\/th>\n      <th>o6<\/th>\n      <th>o7<\/th>\n      <th>o8<\/th>\n      <th>o9<\/th>\n      <th>o10<\/th>\n      <th>o11<\/th>\n      <th>o12<\/th>\n      <th>o13<\/th>\n      <th>o14<\/th>\n      <th>o15<\/th>\n      <th>o16<\/th>\n      <th>o17<\/th>\n      <th>o18<\/th>\n      <th>o19<\/th>\n      <th>o1<\/th>\n      <th>o2<\/th>\n      <th>o3<\/th>\n      <th>o4<\/th>\n      <th>o5<\/th>\n      <th>o6<\/th>\n      <th>o7<\/th>\n      <th>o8<\/th>\n      <th>o9<\/th>\n      <th>o10<\/th>\n      <th>o11<\/th>\n      <th>o12<\/th>\n      <th>o13<\/th>\n      <th>o14<\/th>\n      <th>o15<\/th>\n      <th>o16<\/th>\n      <th>o17<\/th>\n      <th>o18<\/th>\n      <th>o19<\/th>\n      <th>o1<\/th>\n      <th>o2<\/th>\n      <th>o3<\/th>\n      <th>o4<\/th>\n      <th>o5<\/th>\n      <th>o6<\/th>\n      <th>o7<\/th>\n      <th>o8<\/th>\n      <th>o9<\/th>\n      <th>o10<\/th>\n      <th>o11<\/th>\n      <th>o12<\/th>\n      <th>o13<\/th>\n      <th>o14<\/th>\n      <th>o15<\/th>\n      <th>o16<\/th>\n      <th>o17<\/th>\n      <th>o18<\/th>\n      <th>o19<\/th>\n      <th>o1<\/th>\n      <th>o2<\/th>\n      <th>o3<\/th>\n      <th>o4<\/th>\n      <th>o5<\/th>\n      <th>o6<\/th>\n      <th>o7<\/th>\n      <th>o8<\/th>\n      <th>o9<\/th>\n      <th>o10<\/th>\n      <th>o11<\/th>\n      <th>o12<\/th>\n      <th>o13<\/th>\n      <th>o14<\/th>\n      <th>o15<\/th>\n      <th>o16<\/th>\n      <th>o17<\/th>\n      <th>o18<\/th>\n      <th>o19<\/th>\n      <th>o1<\/th>\n      <th>o2<\/th>\n      <th>o3<\/th>\n      <th>o4<\/th>\n      <th>o5<\/th>\n      <th>o6<\/th>\n      <th>o7<\/th>\n      <th>o8<\/th>\n      <th>o9<\/th>\n      <th>o10<\/th>\n      <th>o11<\/th>\n      <th>o12<\/th>\n      <th>o13<\/th>\n      <th>o14<\/th>\n      <th>o15<\/th>\n      <th>o16<\/th>\n      <th>o17<\/th>\n      <th>o18<\/th>\n      <th>o19<\/th>\n      <th>o1<\/th>\n      <th>o2<\/th>\n      <th>o3<\/th>\n      <th>o4<\/th>\n      <th>o5<\/th>\n      <th>o6<\/th>\n      <th>o7<\/th>\n      <th>o8<\/th>\n      <th>o9<\/th>\n      <th>o10<\/th>\n      <th>o11<\/th>\n      <th>o12<\/th>\n      <th>o13<\/th>\n      <th>o14<\/th>\n      <th>o15<\/th>\n      <th>o16<\/th>\n      <th>o17<\/th>\n      <th>o18<\/th>\n      <th>o19<\/th>\n      <th>o1<\/th>\n      <th>o2<\/th>\n      <th>o3<\/th>\n      <th>o4<\/th>\n      <th>o5<\/th>\n      <th>o6<\/th>\n      <th>o7<\/th>\n      <th>o8<\/th>\n      <th>o9<\/th>\n      <th>o10<\/th>\n      <th>o11<\/th>\n      <th>o12<\/th>\n      <th>o13<\/th>\n      <th>o14<\/th>\n      <th>o15<\/th>\n      <th>o16<\/th>\n      <th>o17<\/th>\n      <th>o18<\/th>\n      <th>o19<\/th>\n      <th>o1<\/th>\n      <th>o2<\/th>\n      <th>o3<\/th>\n      <th>o4<\/th>\n      <th>o5<\/th>\n      <th>o6<\/th>\n      <th>o7<\/th>\n      <th>o8<\/th>\n      <th>o9<\/th>\n      <th>o10<\/th>\n      <th>o11<\/th>\n      <th>o12<\/th>\n      <th>o13<\/th>\n      <th>o14<\/th>\n      <th>o15<\/th>\n      <th>o16<\/th>\n      <th>o17<\/th>\n      <th>o18<\/th>\n      <th>o19<\/th>\n      <th>o1<\/th>\n      <th>o2<\/th>\n      <th>o3<\/th>\n      <th>o4<\/th>\n      <th>o5<\/th>\n      <th>o6<\/th>\n      <th>o7<\/th>\n      <th>o8<\/th>\n      <th>o9<\/th>\n      <th>o10<\/th>\n      <th>o11<\/th>\n      <th>o12<\/th>\n      <th>o13<\/th>\n      <th>o14<\/th>\n      <th>o15<\/th>\n      <th>o16<\/th>\n      <th>o17<\/th>\n      <th>o18<\/th>\n      <th>o19<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,216,217,218,219,220,221,222,223,224,225,226,227,228,229,230,231,232,233,234,235,236,237,238,239,240,241,242,243,244,245,246,247,248,249,250,251,252,253,254,255,256,257,258,259,260,261,262,263,264,265,266,267,268,269,270,271,272,273,274,275,276,277,278,279,280,281,282,283,284,285,286,287,288,289,290,291,292,293,294,295,296,297,298,299,300,301,302,303,304,305,306,307,308,309,310,311,312,313,314,315,316,317,318,319,320,321,322,323]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 ---
 # Cargar las covariables
 Vamos a leer el archivo .csv de la ruta `data/Covs/` que contiene las covariables de sitio (no usaremos de observación). Todas estas estandarizadas
@@ -3250,7 +972,7 @@ class: inverse, center, middle
 
 .pull-left[
 # Descanso para un cafecito
-<div class="countdown" id="timer_625b7063" style="right:0;bottom:0;left:0;margin:5%;padding:50px;font-size:6em;" data-warnwhen="0">
+<div class="countdown" id="timer_62676405" style="right:0;bottom:0;left:0;margin:5%;padding:50px;font-size:6em;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">10</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 ]
@@ -3360,6 +1082,582 @@ class: center
 A medida que tenemos menor `\(\psi_k\)` o `\(p_k\)` pues `\(N&gt;n\)`
 
 &lt;img src="img/mk.png" width="1200" height= "400" /&gt;
+
+---
+# Manos a la obra
+### Script `multioccu_script.R`
+
+Recuerden instalar la versión de desarrollo de camtrapR
+
+
+```r
+remotes::install_github("jniedballa/camtrapR")
+```
+
+ Lo primero es cargar todas las librerias necesarias.
+&gt; Recuerden que para instalar rjags necesitan instalar en su maquina el programa [JAGS](https://sourceforge.net/projects/mcmc-jags/files/)
+
+
+```r
+library(camtrapR) # Datos de cámaras y modelos
+library(rjags) # Para correr el modelo
+library(SpadeR) # Riqueza Chao2
+library(tidyverse) # Manipular datos
+library(nimble) # LEnguaje BUGS
+library(nimbleEcology) # Nimble enfocado en jerárquicos
+library(bayesplot) # gráficos estimaciones bayesianas
+library(SpadeR) # Riqueza Chao2
+library(beepr) # Opcional para avisar R termine
+library(tictoc) # Opcional para tomar el tiempo de la función
+library(extrafont) #opcional para cambiar la fuente
+library(snowfall)
+```
+---
+# Formato de los datos
+
+Vamos a usar los mismos datos que del ejemplo anterior. Seguimos un procedimiento similar para cargar los datos.
+
+
+
+
+```r
+# Cargamos la tabla de registros de las especies
+registers &lt;-  read.csv("Data/Survey/recordTable_OC.csv")
+
+# Cargamos la tabla de operación de cámaras
+CToperation &lt;-  read.csv("Data/Survey/CTtable_OC.csv") 
+
+# Generamos la matríz de operación de las cámaras
+
+camop &lt;- cameraOperation(CTtable= CToperation, # Tabla de operación
+                         stationCol= "Station", # Columna que define la estación
+                         setupCol= "Setup_date", #Columna fecha de colocación
+                         retrievalCol= "Retrieval_date", #Columna fecha de retiro
+                         hasProblems= T, # Hubo fallos de cámaras
+                         dateFormat= "%Y-%m-%d") # Formato de las fechas
+```
+---
+
+```r
+# Función para generar las historias de detección para todas las especies seleccionadas
+
+DetHist_list &lt;- lapply(unique(registers$Species), FUN = function(x) {
+  detectionHistory(
+    recordTable         = registers, # Tabla de registros
+    camOp                = camop, # Matriz de operación de cámaras
+    stationCol           = "Station",
+    speciesCol           = "Species",
+    recordDateTimeCol    = "DateTimeOriginal",
+    recordDateTimeFormat  = "%d/%m/%Y",
+    species              = x,     # la función reemplaza x por cada una de las especies
+    occasionLength       = 10, # Colapso de las historias a 10 ías
+    day1                 = "station", #inicie en la fecha de cada estación
+    datesAsOccasionNames = FALSE,
+    includeEffort        = TRUE,
+    scaleEffort          = TRUE,
+    timeZone             = "America/Mexico_City" 
+  )}
+)
+
+# Se genera una lista con cada historia de detección y el esfuerzo de muestreo, ahora le colocaremos los nombres para saber a cual especie corresponde
+names(DetHist_list) &lt;- unique(registers$Species)
+
+# Finalmente creamos una lista nueva donde estén solo las historias de detección
+ylist &lt;- lapply(DetHist_list, FUN = function(x) x$detection_history)
+```
+
+Terminaremos con el objeto ylist que cotiente todas las historias de detección
+
+---
+
+### Finalmente las covariables
+
+
+```r
+## Covariables 
+
+#Cargamos la base de covariables
+covars &lt;- read.csv("Data/Covs/stdcovs_OC.csv")
+
+identical(nrow(ylist[[1]]), nrow(covars)) # Verificar que tengan el mismo número de filas
+```
+
+```
+## [1] TRUE
+```
+
+
+---
+## Finalmente unimos todo en un objeto lista con los datos que requiere el modelo
+
+
+```r
+# Generamos la base de datos para el modelo
+data_list &lt;- list(ylist    = ylist, # Historias de detección
+                  siteCovs = covars, # Covariables de sitio
+                  obsCovs  = list(effort = DetHist_list[[1]]$effort))  # agregamos el esfuerzo de muestreo como covariable de observación
+
+str(data_list)
+```
+
+```
+## List of 3
+##  $ ylist   :List of 17
+##   ..$ Conepatus leuconotus    : num [1:67, 1:19] 0 NA 0 0 1 0 0 0 0 0 ...
+##   .. ..- attr(*, "dimnames")=List of 2
+##   .. .. ..$ : chr [1:67] "C1T2P1" "C1T2P11" "C1T2P21" "C1T4P1" ...
+##   .. .. ..$ : chr [1:19] "o1" "o2" "o3" "o4" ...
+##   ..$ Lynx rufus              : num [1:67, 1:19] 0 NA 0 0 0 0 0 0 1 0 ...
+##   .. ..- attr(*, "dimnames")=List of 2
+##   .. .. ..$ : chr [1:67] "C1T2P1" "C1T2P11" "C1T2P21" "C1T4P1" ...
+##   .. .. ..$ : chr [1:19] "o1" "o2" "o3" "o4" ...
+##   ..$ Sylvilagus floridanus   : num [1:67, 1:19] 1 NA 0 0 1 0 0 0 1 1 ...
+##   .. ..- attr(*, "dimnames")=List of 2
+##   .. .. ..$ : chr [1:67] "C1T2P1" "C1T2P11" "C1T2P21" "C1T4P1" ...
+##   .. .. ..$ : chr [1:19] "o1" "o2" "o3" "o4" ...
+##   ..$ Urocyon cinereoargenteus: num [1:67, 1:19] 1 NA 0 0 1 0 0 0 1 0 ...
+##   .. ..- attr(*, "dimnames")=List of 2
+##   .. .. ..$ : chr [1:67] "C1T2P1" "C1T2P11" "C1T2P21" "C1T4P1" ...
+##   .. .. ..$ : chr [1:19] "o1" "o2" "o3" "o4" ...
+##   ..$ Canis latrans           : num [1:67, 1:19] 0 NA 0 0 0 0 0 0 1 0 ...
+##   .. ..- attr(*, "dimnames")=List of 2
+##   .. .. ..$ : chr [1:67] "C1T2P1" "C1T2P11" "C1T2P21" "C1T4P1" ...
+##   .. .. ..$ : chr [1:19] "o1" "o2" "o3" "o4" ...
+##   ..$ Mephitis macroura       : num [1:67, 1:19] 0 NA 0 0 0 0 0 0 0 0 ...
+##   .. ..- attr(*, "dimnames")=List of 2
+##   .. .. ..$ : chr [1:67] "C1T2P1" "C1T2P11" "C1T2P21" "C1T4P1" ...
+##   .. .. ..$ : chr [1:19] "o1" "o2" "o3" "o4" ...
+##   ..$ Odocoileus virginianus  : num [1:67, 1:19] 0 NA 1 0 1 0 0 0 0 0 ...
+##   .. ..- attr(*, "dimnames")=List of 2
+##   .. .. ..$ : chr [1:67] "C1T2P1" "C1T2P11" "C1T2P21" "C1T4P1" ...
+##   .. .. ..$ : chr [1:19] "o1" "o2" "o3" "o4" ...
+##   ..$ Canis lupus familiaris  : num [1:67, 1:19] 0 NA 0 0 0 0 0 0 0 0 ...
+##   .. ..- attr(*, "dimnames")=List of 2
+##   .. .. ..$ : chr [1:67] "C1T2P1" "C1T2P11" "C1T2P21" "C1T4P1" ...
+##   .. .. ..$ : chr [1:19] "o1" "o2" "o3" "o4" ...
+##   ..$ Pecari tajacu           : num [1:67, 1:19] 0 NA 0 0 0 0 0 0 0 0 ...
+##   .. ..- attr(*, "dimnames")=List of 2
+##   .. .. ..$ : chr [1:67] "C1T2P1" "C1T2P11" "C1T2P21" "C1T4P1" ...
+##   .. .. ..$ : chr [1:19] "o1" "o2" "o3" "o4" ...
+##   ..$ Roedores                : num [1:67, 1:19] 0 NA 0 0 1 0 0 0 0 0 ...
+##   .. ..- attr(*, "dimnames")=List of 2
+##   .. .. ..$ : chr [1:67] "C1T2P1" "C1T2P11" "C1T2P21" "C1T4P1" ...
+##   .. .. ..$ : chr [1:19] "o1" "o2" "o3" "o4" ...
+##   ..$ Dasypus novemcinctus    : num [1:67, 1:19] 0 NA 0 0 0 0 0 0 0 0 ...
+##   .. ..- attr(*, "dimnames")=List of 2
+##   .. .. ..$ : chr [1:67] "C1T2P1" "C1T2P11" "C1T2P21" "C1T4P1" ...
+##   .. .. ..$ : chr [1:19] "o1" "o2" "o3" "o4" ...
+##   ..$ Spilogale angustigrons  : num [1:67, 1:19] 0 NA 0 0 0 0 0 0 0 0 ...
+##   .. ..- attr(*, "dimnames")=List of 2
+##   .. .. ..$ : chr [1:67] "C1T2P1" "C1T2P11" "C1T2P21" "C1T4P1" ...
+##   .. .. ..$ : chr [1:19] "o1" "o2" "o3" "o4" ...
+##   ..$ Bassariscus astutus     : num [1:67, 1:19] 0 NA 0 0 0 0 0 0 0 0 ...
+##   .. ..- attr(*, "dimnames")=List of 2
+##   .. .. ..$ : chr [1:67] "C1T2P1" "C1T2P11" "C1T2P21" "C1T4P1" ...
+##   .. .. ..$ : chr [1:19] "o1" "o2" "o3" "o4" ...
+##   ..$ Procyon lotor           : num [1:67, 1:19] 0 NA 0 0 0 0 0 0 0 0 ...
+##   .. ..- attr(*, "dimnames")=List of 2
+##   .. .. ..$ : chr [1:67] "C1T2P1" "C1T2P11" "C1T2P21" "C1T4P1" ...
+##   .. .. ..$ : chr [1:19] "o1" "o2" "o3" "o4" ...
+##   ..$ Capra hircus            : num [1:67, 1:19] 0 NA 0 0 0 0 0 0 0 0 ...
+##   .. ..- attr(*, "dimnames")=List of 2
+##   .. .. ..$ : chr [1:67] "C1T2P1" "C1T2P11" "C1T2P21" "C1T4P1" ...
+##   .. .. ..$ : chr [1:19] "o1" "o2" "o3" "o4" ...
+##   ..$ Puma yagouaroundi       : num [1:67, 1:19] 0 NA 0 0 0 0 0 0 0 0 ...
+##   .. ..- attr(*, "dimnames")=List of 2
+##   .. .. ..$ : chr [1:67] "C1T2P1" "C1T2P11" "C1T2P21" "C1T4P1" ...
+##   .. .. ..$ : chr [1:19] "o1" "o2" "o3" "o4" ...
+##   ..$ Nasua narica            : num [1:67, 1:19] 0 NA 0 0 0 0 0 0 0 0 ...
+##   .. ..- attr(*, "dimnames")=List of 2
+##   .. .. ..$ : chr [1:67] "C1T2P1" "C1T2P11" "C1T2P21" "C1T4P1" ...
+##   .. .. ..$ : chr [1:19] "o1" "o2" "o3" "o4" ...
+##  $ siteCovs:'data.frame':	67 obs. of  11 variables:
+##   ..$ X           : int [1:67] 1 2 3 4 5 6 7 8 9 10 ...
+##   ..$ Station     : chr [1:67] "C1T2P1" "C1T2P11" "C1T2P21" "C1T4P1" ...
+##   ..$ Cam         : chr [1:67] "MoultrieA30" "Moultrie" "MoultrieA30" "Primos" ...
+##   ..$ ...1        : num [1:67] -1.69 -1.64 -1.59 -1.54 -1.49 ...
+##   ..$ Vertcover_50: num [1:67] -0.474 0.652 -0.924 -0.924 -1.151 ...
+##   ..$ Dcrops      : num [1:67] 0.677 1.462 2.219 0.46 1.172 ...
+##   ..$ MSAVI       : num [1:67] 0.732 -0.867 -0.584 -0.143 0.213 ...
+##   ..$ Slope       : num [1:67] -0.2196 -0.9927 -1.0259 1.4184 -0.0597 ...
+##   ..$ Cluster     : num [1:67] -1.06 -1.06 -1.06 -1.06 -1.06 ...
+##   ..$ Effort      : num [1:67] -0.2081 -1.4605 -0.0719 -0.8888 -0.0719 ...
+##   ..$ Dpop_G      : num [1:67] -0.4261 -0.3167 -0.1805 -0.1923 -0.0948 ...
+##  $ obsCovs :List of 1
+##   ..$ effort: num [1:67, 1:19] 0.0626 NA 0.0626 0.0626 0.0626 ...
+##   .. ..- attr(*, "dimnames")=List of 2
+##   .. .. ..$ : chr [1:67] "C1T2P1" "C1T2P11" "C1T2P21" "C1T4P1" ...
+##   .. .. ..$ : chr [1:19] "o1" "o2" "o3" "o4" ...
+```
+
+---
+## Creando el modelo
+
+CamtrapR permite ajustar modelos multi-especie en JAGS y Nimble (es decir en lenguaje BUGS), nosotros vamos a usar JAGS ya que la versión de Nimble aun no permite estimar parámetro N de riqueza de especies
+
+.pull-left[
+
+
+```r
+# Usaremos la función ` communityModel`
+
+# Generemos el modelo
+comu_model &lt;- communityModel(data_list, # la lista de datos
+                             occuCovs = list(ranef = "Dcrops"), # La covariables de sitio
+                             detCovsObservation = list(fixed = "effort"), #Covariables de observación
+                             intercepts = list(det = "ranef", occu = "ranef"),
+                             augmentation = c(full = 30),# Número aumentado de especies
+                             modelFile = "multmod")# Guardamos la especificación en un archivo
+```
+
+]
+
+.pull-right[
+
+```r
+summary(comu_model)
+```
+
+```
+## commOccu object (for JAGS)
+## 
+## 30 species,  67 stations,  19 occasions
+## 758 occasions with effort
+## Number of detections (by species): 0 - 146 
+## 
+## Available site covariates:
+##  X, Station, Cam, ...1, Vertcover_50, Dcrops, MSAVI, Slope, Cluster, Effort, Dpop_G 
+## 
+## Used site covariates:
+##  Dcrops 
+## 
+## Available site-occasion covariates:
+##  effort
+```
+
+
+]
+
+---
+
+## Hora de correr el modelo
+
+En este caso no corran la función porque dura alrededor de 56 min
+
+
+```r
+fit.commu &lt;- fit(comu_model,
+                 n.iter = 22000, 
+                 n.burnin = 2000,
+                 thin = 2,
+                 chains = 3,
+                 cores = 3,
+                 quiet = T
+);beep(sound = 4)
+
+# Duración 56 min aprox
+```
+
+
+
+---
+## Nuestro resultado
+
+
+```r
+modresult &lt;- summary(fit.commu)[["statistics"]]
+```
+
+
+<div id="htmlwidget-8c123e24c00e595f6f71" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8c123e24c00e595f6f71">{"x":{"filter":"none","vertical":false,"data":[["Bpvalue","Bpvalue_species[1]","Bpvalue_species[2]","Bpvalue_species[3]","Bpvalue_species[4]","Bpvalue_species[5]","Bpvalue_species[6]","Bpvalue_species[7]","Bpvalue_species[8]","Bpvalue_species[9]","Bpvalue_species[10]","Bpvalue_species[11]","Bpvalue_species[12]","Bpvalue_species[13]","Bpvalue_species[14]","Bpvalue_species[15]","Bpvalue_species[16]","Bpvalue_species[17]","Bpvalue_species[18]","Bpvalue_species[19]","Bpvalue_species[20]","Bpvalue_species[21]","Bpvalue_species[22]","Bpvalue_species[23]","Bpvalue_species[24]","Bpvalue_species[25]","Bpvalue_species[26]","Bpvalue_species[27]","Bpvalue_species[28]","Bpvalue_species[29]","Bpvalue_species[30]","Nspecies","Ntotal","R2[1]","R2[2]","R2[3]","R2[4]","R2[5]","R2[6]","R2[7]","R2[8]","R2[9]","R2[10]","R2[11]","R2[12]","R2[13]","R2[14]","R2[15]","R2[16]","R2[17]","R2[18]","R2[19]","R2[20]","R2[21]","R2[22]","R2[23]","R2[24]","R2[25]","R2[26]","R2[27]","R2[28]","R2[29]","R2[30]","R3","alpha.obs.fixed.cont.effort","alpha0[1]","alpha0[2]","alpha0[3]","alpha0[4]","alpha0[5]","alpha0[6]","alpha0[7]","alpha0[8]","alpha0[9]","alpha0[10]","alpha0[11]","alpha0[12]","alpha0[13]","alpha0[14]","alpha0[15]","alpha0[16]","alpha0[17]","alpha0[18]","alpha0[19]","alpha0[20]","alpha0[21]","alpha0[22]","alpha0[23]","alpha0[24]","alpha0[25]","alpha0[26]","alpha0[27]","alpha0[28]","alpha0[29]","alpha0[30]","alpha0.mean","alpha0.sigma","beta.ranef.cont.Dcrops[1]","beta.ranef.cont.Dcrops[2]","beta.ranef.cont.Dcrops[3]","beta.ranef.cont.Dcrops[4]","beta.ranef.cont.Dcrops[5]","beta.ranef.cont.Dcrops[6]","beta.ranef.cont.Dcrops[7]","beta.ranef.cont.Dcrops[8]","beta.ranef.cont.Dcrops[9]","beta.ranef.cont.Dcrops[10]","beta.ranef.cont.Dcrops[11]","beta.ranef.cont.Dcrops[12]","beta.ranef.cont.Dcrops[13]","beta.ranef.cont.Dcrops[14]","beta.ranef.cont.Dcrops[15]","beta.ranef.cont.Dcrops[16]","beta.ranef.cont.Dcrops[17]","beta.ranef.cont.Dcrops[18]","beta.ranef.cont.Dcrops[19]","beta.ranef.cont.Dcrops[20]","beta.ranef.cont.Dcrops[21]","beta.ranef.cont.Dcrops[22]","beta.ranef.cont.Dcrops[23]","beta.ranef.cont.Dcrops[24]","beta.ranef.cont.Dcrops[25]","beta.ranef.cont.Dcrops[26]","beta.ranef.cont.Dcrops[27]","beta.ranef.cont.Dcrops[28]","beta.ranef.cont.Dcrops[29]","beta.ranef.cont.Dcrops[30]","beta.ranef.cont.Dcrops.mean","beta.ranef.cont.Dcrops.sigma","beta0[1]","beta0[2]","beta0[3]","beta0[4]","beta0[5]","beta0[6]","beta0[7]","beta0[8]","beta0[9]","beta0[10]","beta0[11]","beta0[12]","beta0[13]","beta0[14]","beta0[15]","beta0[16]","beta0[17]","beta0[18]","beta0[19]","beta0[20]","beta0[21]","beta0[22]","beta0[23]","beta0[24]","beta0[25]","beta0[26]","beta0[27]","beta0[28]","beta0[29]","beta0[30]","beta0.mean","beta0.sigma","n0","new.R2[1]","new.R2[2]","new.R2[3]","new.R2[4]","new.R2[5]","new.R2[6]","new.R2[7]","new.R2[8]","new.R2[9]","new.R2[10]","new.R2[11]","new.R2[12]","new.R2[13]","new.R2[14]","new.R2[15]","new.R2[16]","new.R2[17]","new.R2[18]","new.R2[19]","new.R2[20]","new.R2[21]","new.R2[22]","new.R2[23]","new.R2[24]","new.R2[25]","new.R2[26]","new.R2[27]","new.R2[28]","new.R2[29]","new.R2[30]","new.R3","omega","w[1]","w[2]","w[3]","w[4]","w[5]","w[6]","w[7]","w[8]","w[9]","w[10]","w[11]","w[12]","w[13]","w[14]","w[15]","w[16]","w[17]","w[18]","w[19]","w[20]","w[21]","w[22]","w[23]","w[24]","w[25]","w[26]","w[27]","w[28]","w[29]","w[30]"],[1,0.716,0.612,1,0.983,0.565,0.721,0.965,0.436,0.819,0.941,0.394,0.459,0.475,0.555,0.562,0.565,0.743,0.027,0.029,0.029,0.029,0.03,0.029,0.028,0.026,0.028,0.03,0.028,0.027,0.031,17.877,19.961,12.388,15.208,23.642,16.386,2.97,6.204,21.548,3.161,14.848,3.804,1.131,2.661,1.845,3.763,3.427,1.668,1.99,0.069,0.071,0.068,0.074,0.075,0.069,0.075,0.066,0.073,0.072,0.07,0.067,0.079,137.573,0.5,-1.683,-2.193,-0.608,-1.025,-2.437,-2.263,-1.129,-2.922,-1.89,-0.736,-2.88,-1.997,-2.941,-2.282,-1.945,-2.413,-2.403,-2.12,-2.123,-2.116,-2.124,-2.126,-2.109,-2.135,-2.123,-2.125,-2.116,-2.114,-2.127,-2.139,-2.042,0.934,-0.186,-0.085,0.215,-0.014,0.122,-0.098,-0.201,0.27,-0.157,-0.126,-0.028,-0.08,-0.314,-0.793,-0.22,-0.22,-0.418,-0.13,-0.126,-0.128,-0.129,-0.134,-0.128,-0.127,-0.132,-0.134,-0.128,-0.132,-0.135,-0.122,-0.134,0.406,-0.353,0.027,-0.099,-0.11,-2.271,-1.592,0.884,-1.947,-0.294,-2.189,-3.163,-2.255,-2.661,-2.212,-2.113,-2.967,-3.046,-2.469,-2.476,-2.524,-2.476,-2.506,-2.506,-2.495,-2.468,-2.483,-2.48,-2.456,-2.496,-2.435,-1.941,1.738,2.961,9.972,13.985,6.232,8.143,2.718,4.879,12.631,3.313,11.106,1.459,1.092,2.683,1.791,3.509,3.076,1.459,1.429,0.047,0.048,0.045,0.052,0.051,0.044,0.054,0.045,0.053,0.047,0.047,0.045,0.056,90.11,0.655,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0.228,0.23,0.227,0.229,0.234,0.228,0.232,0.224,0.227,0.225,0.223,0.226,0.229],[0,0.451,0.487,0,0.131,0.496,0.449,0.185,0.496,0.385,0.236,0.489,0.498,0.499,0.497,0.496,0.496,0.437,0.161,0.168,0.167,0.168,0.172,0.169,0.166,0.16,0.164,0.171,0.165,0.163,0.172,1.133,2.953,4.015,4.963,2.167,2.936,2.084,2.79,4.039,2.064,4.231,1.172,1.166,2.214,1.475,2.245,2.348,1.547,1.497,0.339,0.347,0.341,0.357,0.353,0.334,0.36,0.331,0.354,0.346,0.347,0.331,0.368,12.071,0.094,0.176,0.224,0.113,0.128,0.563,0.371,0.106,0.735,0.194,0.235,0.995,0.416,0.85,0.389,0.409,0.617,0.603,1.095,1.096,1.092,1.103,1.109,1.089,1.11,1.094,1.09,1.097,1.094,1.105,1.113,0.335,0.315,0.234,0.268,0.227,0.216,0.345,0.287,0.238,0.391,0.244,0.289,0.4,0.318,0.387,0.44,0.308,0.367,0.402,0.453,0.453,0.449,0.452,0.447,0.45,0.449,0.453,0.45,0.451,0.453,0.452,0.446,0.148,0.15,0.301,0.434,0.253,0.256,0.657,0.474,0.309,0.879,0.333,0.401,1.183,0.52,0.977,0.593,0.491,0.796,0.816,2.174,2.177,2.199,2.19,2.18,2.191,2.165,2.165,2.185,2.18,2.187,2.193,2.18,0.674,0.548,2.953,3.424,3.814,2.252,2.951,1.6,2.234,3.737,1.734,3.552,1.141,1.08,1.698,1.318,1.886,1.751,1.258,1.263,0.254,0.263,0.249,0.284,0.27,0.242,0.287,0.251,0.289,0.253,0.261,0.246,0.298,10.17,0.123,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.419,0.421,0.419,0.42,0.424,0.419,0.422,0.417,0.419,0.417,0.416,0.418,0.42],[0,0.003,0.003,0,0.001,0.003,0.003,0.001,0.003,0.002,0.001,0.003,0.003,0.003,0.003,0.003,0.003,0.003,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.007,0.017,0.023,0.029,0.013,0.017,0.012,0.016,0.023,0.012,0.024,0.007,0.007,0.013,0.009,0.013,0.014,0.009,0.009,0.002,0.002,0.002,0.002,0.002,0.002,0.002,0.002,0.002,0.002,0.002,0.002,0.002,0.07,0.001,0.001,0.001,0.001,0.001,0.003,0.002,0.001,0.004,0.001,0.001,0.006,0.002,0.005,0.002,0.002,0.004,0.003,0.006,0.006,0.006,0.006,0.006,0.006,0.006,0.006,0.006,0.006,0.006,0.006,0.006,0.002,0.002,0.001,0.002,0.001,0.001,0.002,0.002,0.001,0.002,0.001,0.002,0.002,0.002,0.002,0.003,0.002,0.002,0.002,0.003,0.003,0.003,0.003,0.003,0.003,0.003,0.003,0.003,0.003,0.003,0.003,0.003,0.001,0.001,0.002,0.003,0.001,0.001,0.004,0.003,0.002,0.005,0.002,0.002,0.007,0.003,0.006,0.003,0.003,0.005,0.005,0.013,0.013,0.013,0.013,0.013,0.013,0.012,0.012,0.013,0.013,0.013,0.013,0.013,0.004,0.003,0.017,0.02,0.022,0.013,0.017,0.009,0.013,0.022,0.01,0.021,0.007,0.006,0.01,0.008,0.011,0.01,0.007,0.007,0.001,0.002,0.001,0.002,0.002,0.001,0.002,0.001,0.002,0.001,0.002,0.001,0.002,0.059,0.001,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.002,0.002,0.002,0.002,0.002,0.002,0.002,0.002,0.002,0.002,0.002,0.002,0.002],[0,0.003,0.003,0,0.001,0.004,0.003,0.001,0.004,0.002,0.001,0.003,0.003,0.003,0.003,0.003,0.003,0.003,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.026,0.082,0.029,0.053,0.013,0.018,0.025,0.027,0.026,0.031,0.034,0.007,0.016,0.02,0.02,0.021,0.021,0.018,0.017,0.004,0.004,0.004,0.005,0.004,0.004,0.005,0.004,0.005,0.004,0.004,0.004,0.005,0.147,0.001,0.001,0.002,0.001,0.001,0.008,0.004,0.001,0.016,0.001,0.002,0.024,0.004,0.018,0.004,0.003,0.008,0.008,0.016,0.015,0.013,0.017,0.015,0.013,0.017,0.014,0.015,0.013,0.017,0.016,0.016,0.008,0.009,0.002,0.002,0.002,0.001,0.003,0.002,0.002,0.005,0.002,0.002,0.003,0.002,0.004,0.007,0.002,0.003,0.004,0.003,0.003,0.003,0.003,0.003,0.003,0.003,0.003,0.003,0.003,0.003,0.003,0.003,0.002,0.003,0.002,0.005,0.001,0.002,0.009,0.005,0.002,0.02,0.003,0.002,0.028,0.005,0.02,0.007,0.004,0.011,0.011,0.036,0.036,0.037,0.038,0.036,0.038,0.036,0.037,0.037,0.036,0.037,0.038,0.036,0.017,0.013,0.082,0.021,0.034,0.013,0.017,0.018,0.019,0.022,0.026,0.024,0.007,0.018,0.013,0.019,0.014,0.013,0.013,0.013,0.004,0.004,0.003,0.006,0.005,0.003,0.005,0.004,0.005,0.003,0.004,0.004,0.005,0.119,0.003,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.007,0.007,0.007,0.007,0.007,0.007,0.007,0.007,0.007,0.007,0.007,0.007,0.007]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Mean<\/th>\n      <th>SD<\/th>\n      <th>Naive SE<\/th>\n      <th>Time-series SE<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+
+---
+### Veamos el resultado gráfico
+
+.pull-left[
+
+Otra gran ventaja de CamtrapR es que permite gráficar de manera muy sencilla la predicción posterior del modelo. Veamos que pasa con la ocupación de cada especie
+
+
+```r
+plot_effects(comu_model, # El modelo
+             fit.commu, # El objeto ajustado
+             submodel = "state") # el parámetro de interés
+```
+]
+
+.pull-right[
+
+
+
+```
+## $Dcrops
+```
+
+&lt;img src="multi_sp_GAP_files/figure-html/unnamed-chunk-44-1.png" width="100%" /&gt;
+
+]
+
+---
+
+### Ahora los coeficientes
+
+
+```r
+plot_coef(comu_model,
+          fit.commu,
+          submodel = "state")
+```
+
+```
+## $Dcrops
+```
+
+&lt;img src="multi_sp_GAP_files/figure-html/unnamed-chunk-45-1.png" width="100%" /&gt;
+
+
+---
+
+### Realizamos el mismo procedimiento para el submodelo de detección
+
+
+```r
+plot_effects(comu_model,
+             fit.commu,
+             submodel = "det")
+```
+
+```
+## $effort
+```
+
+&lt;img src="multi_sp_GAP_files/figure-html/unnamed-chunk-46-1.png" width="100%" /&gt;
+
+---
+
+### y sus respectivos coeficientes
+
+```r
+plot_coef(comu_model,
+          fit.commu,
+          submodel = "det")
+```
+
+```
+## $effort
+```
+
+&lt;img src="multi_sp_GAP_files/figure-html/unnamed-chunk-47-1.png" width="100%" /&gt;
+
+---
+### Lo que vinimos a buscar fue la riqueza de especies
+
+La riqueza estimada de especies es ~20 sps
+.pull-left[
+
+```r
+(riqueza_est &lt;- modresult["Ntotal",])
+```
+
+```
+##           Mean             SD       Naive SE Time-series SE 
+##    19.96107056     2.95338837     0.01705054     0.08235277
+```
+
+
+```r
+# Veamos el gráfico de la distribución posterior
+mcmc_areas(fit.commu, # objeto jags
+           pars= "Ntotal", # parámetro de interés
+           point_est = "mean",
+           prob = 0.95) # intervalos de credibilidad
+```
+]
+.pull-right[
+&lt;img src="multi_sp_GAP_files/figure-html/unnamed-chunk-50-1.png" width="100%" /&gt;
+
+]
+---
+### La estimación no se ve muy bien, hay que verificar los trace plots
+
+Debería verse como un cesped, muy probablemente necesitamos muchas mas iteraciones para este modelo
+
+```r
+mcmc_trace(fit.commu, pars = "Ntotal")
+```
+
+&lt;img src="multi_sp_GAP_files/figure-html/unnamed-chunk-51-1.png" width="100%" /&gt;
+
+
+
+```r
+gd &lt;- as.data.frame(gelman.diag(fit.commu,  multivariate = FALSE)[[1]])
+gd["Ntotal",]
+```
+
+```
+##        Point est. Upper C.I.
+## Ntotal   1.001335   1.002693
+```
+
+La prueba de Gelman-Rubin debe ser ~1 para considerar que hay buena convergencia. Aunque tenemos un valor bueno para Ntotal, hay varios valores de omega con NA, eso puede estar causando los problemas.
+
+
+---
+class:inverse
+
+# Ajustamos nuestro primer modelo de multi-especie. 
+
+Recordemos que **N** es la riqueza estimada a un **área mayor** de nuestro muestreo (área que no conocemos)
+.pull-left[
+### **N** depende de si cumplimos los supuestos del área
+- El muestreo es aleatorio. El área de muestreo debe **representar la región**
+- En caso contrario N representa el número de especies un área hipotética con **las mismas condiciones**
+- Si la región es pequeña, **N** puede ser **sobre-estimada**
+]
+.pull-right[
+### y de las especies
+- Datos de **insectos** no sirven para predecir aves
+- Predicción a especies que sean **detectados de manera similar** con la metodología usada.
+
+.footnote[Guillera-Arroita, G, Kéry, M, Lahoz-Monfort, JJ. Inferring species richness using multispecies occupancy modeling: Estimation performance and interpretation. Ecol Evol. 2019; 9: 780– 792. https://doi.org/10.1002/ece3.4821]
+]
+---
+## ¿Será mejor que un estimador no-paramétrico?
+
+
+```r
+## 5.1 Riqueza con Chao2----
+
+# Formatear los datos a un vector de frecuencia
+inci_Chao &lt;- ylist %&gt;%  # historias de captura
+  map(~rowSums(.,na.rm = T)) %&gt;% # sumo las detecciones en cada sitio
+  reduce(cbind) %&gt;% # unimos las listas
+  t() %&gt;% # trasponer la tabla
+  as_tibble() %&gt;% #formato tibble
+  mutate_if(is.numeric,~(.&gt;=1)*1) %&gt;%  #como es incidencia, formateo a 1 y 0
+  rowSums() %&gt;%  # ahora si la suma de las incidencias en cada sitio
+  as_tibble() %&gt;% 
+ add_row(value= 67, .before = 1) %&gt;%  # el formato requiere que el primer valor sea el número de sitios
+  as.matrix() # Requiere formato de matriz
+
+
+# Calcular la riqueza con estimadores no paramétricos
+chao_sp &lt;- ChaoSpecies(inci_Chao, datatype = "incidence_freq")
+
+NIChao &lt;- chao_sp$Species_table[4,c(1,3,4)] # Extraer valores de IChao
+
+Nocu&lt;- mcmc_intervals(fit.commu, pars = "Ntotal", prob = 0.95,prob_outer = 0.99, point_est = "mean")[[1]] %&gt;%  # Extraer valores del bayes plot
+  select(m,l,h) %&gt;% # Seleccionar columnas
+  rename("Estimate"= m, # Renombrarlas
+         "95%Lower"= l,
+         "95%Upper"= h)
+```
+
+
+
+---
+# Comparación
+
+Veamos de manera gráfica que tanto difieren las estimaciones de la riqueza
+
+.pull-left[
+
+
+```r
+# Unir en un solo dataframe
+Nplotdata &lt;- rbind(IChao=NIChao, DR.mod=Nocu) %&gt;% 
+  as.data.frame() %&gt;% 
+  rownames_to_column(.)
+
+# Gráfico para comparar la riqueza estimada
+plotN &lt;- ggplot(Nplotdata, aes(x=rowname, y= Estimate, col=rowname))+
+  geom_point(aes(shape=rowname),size=3)+
+  geom_errorbar(aes(ymin= `95%Lower`, ymax= `95%Upper`), 
+                width=.3, size=1)+
+  labs(x="Estimador de riqueza",
+       y="Número de especies estimado", 
+       title = "Diferencia de los estimadores de riqueza")+
+  theme_classic()+
+  theme(text=element_text(size = 13), 
+        plot.title = element_text(hjust= 0.5), 
+        legend.position = "none")
+```
+
+]
+
+.pull-right[
+
+&lt;img src="multi_sp_GAP_files/figure-html/unnamed-chunk-55-1.png" width="100%" /&gt;
+
+
+]
+
+---
+class: inverse
+
+# Ocupación multi-specie vs IChao
+.pull-left[
+
+
+![](img/pildoras.jpg)
+
+.footnote[ Tingley, MW, Nadeau, CP, Sandor, ME. Multi-species occupancy models as robust estimators of community richness. Methods Ecol Evol. 2020; 11: 633– 642. https://doi.org/10.1111/2041-210X.13378]
+]
+
+.pull-right[
+Ambos lo hacen muy mal cuando `\(\psi_k\)` es muy **bajo**
+
+- **Chao** siempre estará sesgado al valor **más bajo de N** por no considerar la detección (De hecho Chao lo reconoce)
+- Los modelos de ocupación son muy **hambrientos** de datos
+- Tienes que saber "**programar**" para ajustar modelos multi-specie 
+- Todavía hay algunos bmoles con la heterogeneidad y los prior (Guillera-Arroita et al. 2019)
+]
+
+---
+# Las posibilidades son infinitas
+1. Estructura de la diversidad- Número efectivo de especies
+![](img/dethill.png)
+---
+## 1. Estructura de la diversidad- Número efectivo de especies
+
+.pull-left[
+Cómo la presencia o no de leones afecta la riqueza de meso-carnívoros
+
+&gt;Curveira-Santos Gonçalo, Sutherland Chris, Tenan Simone, Fernández-Chacón lbert, Mann Gareth K. H., Pitman Ross T.and Swanepoel Lourens H. 2021. Mesocarnivore community structuring in the presence of Africa's apex predator. Proc. R. Soc. B.2882020237920202379. http://doi.org/10.1098/rspb.2020.2379
+
+]
+
+.pull-right[ ![](img/hilllion.png)
+]
+---
+# 2. Diversidad funcional y filogenética
+.pull-left[
+Las consecuencias de no considerar a especies no detectadas en los análisis.
+
+&gt; Jarzyna, M. A., &amp; Jetz, W. (2016). Detecting the multiple facets of biodiversity. Trends in ecology &amp; evolution, 31(7), 527-538. https://doi.org/10.1016/j.tree.2016.04.002
+
+
+
+Les dejo ejemplos divertidos en la carpeta de bibliografía
+
+]
+
+.pull-right[
+![](img/funcional.jpg)
+]
+
+---
+class: inverse, center, top
+
+background-image: url("img/peca.JPG")
+background-position: 60% 60%
+background-size: cover
+
+
+# .big-text[Gracias]
+
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

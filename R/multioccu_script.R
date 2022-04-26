@@ -10,7 +10,7 @@
 
 
 
-# 1. Cargar librerias  --------------------------------------------------
+# 1. Cargar librerías  --------------------------------------------------
 
 # Instalar CamtrapR versión de desarrollo ---------------------------------
 
@@ -26,6 +26,7 @@ library(tidyverse) # Manejo de datos y gráficas
 library(rjags) # Lenguaje JAGS
 library(nimble) # LEnguaje BUGS
 library(nimbleEcology) # Nimble enfocado en jerárquicos
+library(bayesplot) # gráficos estimaciones bayesianas
 library(SpadeR) # Riqueza Chao2
 library(tictoc) # Opcional de tiempo
 library(beepr) # Opcional de alertas
@@ -109,10 +110,10 @@ modelfile <- (fileext = "modoccu.txt")
 # Generemos el modelo
 comu_model <- communityModel(data_list, # la lista de datos
                              occuCovs = list(ranef = "Dcrops"), # La covariables de sitio
-                             detCovsObservation = list(ranef = "effort"), #Covariables de observación
+                             detCovsObservation = list(fixed = "effort"), #Covariables de observación
                              intercepts = list(det = "ranef", occu = "ranef"),
                              augmentation = c(full = 30),# Número aumentado de especies
-                             modelFile = modelfile)
+                             modelFile = "multmod")
 
 summary(comu_model)
 
@@ -131,59 +132,106 @@ fit.commu <- fit(comu_model,
 # Duración 56 min aprox
 
 save(fit.commu, file="results/DR_result.R") # guardamos los resultados para no correr de nuevo
+load("results/DR_result.R")
 
 # Resultados --------------------------------------------------------------
 
-results <- summary(fit.commu)[["statistics"]]
+# Extraemos lo tabla de valores estimados
+modresult <- as.data.frame(summary(fit.commu)[["statistics"]])
+View(modresult)
 
+# Gráficos de predicción y de coeficientes
 
-plot_effects(comu_model,
-             fit.commu,
-             submodel = "state")
+# Otra gran ventaja de CamtrapR es que permite gráficar de manera muy sencilla la predicción posterior del modelo. Veamos que pasa con la ocupación de cada especie
 
+plot_effects(comu_model, # El modelo
+             fit.commu, # El objeto ajustado
+             submodel = "state") # el parámetro de interés
+
+# Ahora con los coeficientes estimados
+
+plot_coef(comu_model,
+          fit.commu,
+          submodel = "state")
+
+# Realizamos el mismo procedimiento para el submodelo de detección
 
 plot_effects(comu_model,
              fit.commu,
              submodel = "det")
 
 
-plot_coef(comu_model,
-          fit.commu,
-          submodel = "state")
-
+# y sus respectivos coeficientes
 
 plot_coef(comu_model,
           fit.commu,
           submodel = "det")
 
+# Ahora lo que nos interesa. Llevamos todo este viaje para estimar el número de especies en la comunidad
+
+# Valor de Ntotal, es decir del número de especies estimado
+(riqueza_est <- modresult["Ntotal",])
+
+# Veamos el gráfico de la distribución posterior
+mcmc_areas(fit.commu, # objeto jags
+           pars= "Ntotal", # parámetro de interés
+           point_est = "mean",
+           prob = 0.95) # intervalos de credibilidad
+
+
+
+# La estimación no se ve muy bien, hay que verificar los trace plots
+
+mcmc_trace(fit.commu, pars = "Ntotal")
+
+# Debería verse como un cesped, muy probablemente necesitamos muchas mas iteraciones para este modelo
+
+gd <- as.data.frame(gelman.diag(fit.commu,  multivariate = FALSE)[[1]])
+gd["Ntotal",]
+
+#La prueba de Gelman-Rubin debe ser ~1 para considerar que hay buena convergencia. Aunque tenemos un valor bueno para Ntotal, hay varios valores de omega con NA, eso puede estar causando los problemas.
+
+
+# Comparando con métodos clásicos -----------------------------------------
 
 
 # Formatear los datos a un vector de frecuencia
-abu_Chao <- yaug %>% 
-  select(1:nspec) %>%  # seleccionar especies observadas
+inci_Chao <- ylist %>%  # historias de captura
+  map(~rowSums(.,na.rm = T)) %>% # sumo las detecciones en cada sitio
+  reduce(cbind) %>% # unimos las listas
   t() %>% # trasponer la tabla
-  rowSums(. , na.rm = T) %>% # sumar las filas
-  as.data.frame()
+  as_tibble() %>% #formato tibble
+  mutate_if(is.numeric,~(.>=1)*1) %>%  #como es incidencia, formateo a 1 y 0
+  rowSums() %>%  # ahora si la suma de las incidencias en cada sitio
+  as_tibble() %>% 
+ add_row(value= 67, .before = 1) %>%  # el formato requiere que el primer valor sea el número de sitios
+  as.matrix() # Requiere formato de matriz
+
+
 
 # Calcular la riqueza con estimadores no paramétricos
-chao_sp <- ChaoSpecies(abu_Chao, datatype = "abundance")
+chao_sp <- ChaoSpecies(inci_Chao, datatype = "incidence_freq")
 
-NICHao <- chao_sp$Species_table[5,c(1,3,4)] # Extraer valores de IChao
-Nocu <- mod_result$summary[862,c(1,4,7)] # Valores del modelo DR
+NIChao <- chao_sp$Species_table[4,c(1,3,4)] # Extraer valores de IChao
+
+Nocu<- mcmc_intervals(fit.commu, pars = "Ntotal", prob = 0.95,prob_outer = 0.99, point_est = "mean")[[1]] %>%  # Extraer valores del bayes plot
+  select(m,l,h) %>% # Seleccionar columnas
+  rename("Estimate"= m, # Renombrarlas
+         "95%Lower"= l,
+         "95%Upper"= h)
+
 
 # Unir en un solo dataframe
-Nplotdata <- rbind(IChao=NICHao, DR.mod=Nocu) %>% 
+Nplotdata <- rbind(IChao=NIChao, DR.mod=Nocu) %>% 
   as.data.frame() %>% 
   rownames_to_column(.)
-
-windowsFonts(TNR = windowsFont("Times New Roman")) # Fuentes
 
 # Gráfico para comparar la riqueza estimada
 plotN <- ggplot(Nplotdata, aes(x=rowname, y= Estimate, col=rowname))+
   geom_point(aes(shape=rowname),size=3)+
-  geom_errorbar(aes(ymin= Nplotdata$`95%Lower`, ymax= Nplotdata$`95%Upper`), width=.3, size=1)+
+  geom_errorbar(aes(ymin= `95%Lower`, ymax= `95%Upper`), width=.3, size=1)+
   labs(x="Estimador de riqueza",y="Número de especies estimado", title = "Diferencia de los estimadores de riqueza")+
   theme_classic()+
-  theme(text=element_text(size = 13, family = "TNR"), plot.title = element_text(hjust= 0.5), legend.position = "none")
+  theme(text=element_text(size = 13), plot.title = element_text(hjust= 0.5), legend.position = "none")
 
 plotN

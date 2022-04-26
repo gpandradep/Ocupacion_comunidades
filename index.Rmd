@@ -42,7 +42,9 @@ install.packages(c("DiversityOccupancy", # Diversidad y ocupación
                    "ggeffects", #Gráficos de glms
                    "beepr", #opcional 
                    "tictoc", #opcional
-                   "SpadeR" # Riqueza de especies
+                   "SpadeR", # Riqueza de especies
+                   "bayesplot", # gráficos bayesianos
+                   "snowfall"
                    ))
 ```
 
@@ -145,7 +147,7 @@ downloadthis::download_link(
 )
 ```
 
-- Para descargar cada scrips, ir a la parte superior derecha del navegador, seleccionar el scripts, se abrirá una nueva página con el script con su correspondiente botón de descarga.
+- Para descargar cada script, ir a la parte superior derecha del navegador, seleccionar el scripts, se abrirá una nueva página con el script con su correspondiente botón de descarga.
 
 ![](img/scripts_ints.jpg)
 
