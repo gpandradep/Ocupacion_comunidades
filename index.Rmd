@@ -14,8 +14,21 @@ site: distill::distill_website
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 
-# Learn more about creating websites with Distill at:
-# https://rstudio.github.io/distill/website.html
+library(metathis)
+meta() %>%
+  meta_general(
+    description = "Ajustar modelos de ocupación para comunidad de especies con Diversityoccupancy y CamtrapR",
+    generator = "xaringan and remark.js"
+  ) %>% 
+  meta_name("github-repo" = " gpandradep/Ocupacion_comunidades ") %>% 
+  meta_social(
+    title = "Modelos de ocupación multi-especie para comunidades",
+    url = "https://gpandradep.github.io/Ocupacion_comunidades/",
+    image = "https://raw.githubusercontent.com/gpandradep/Ocupacion_comunidades/main/img/coati.jpg",
+    image_alt = "Coati Cámaras trampa",
+    og_type = "website",
+    twitter_card_type = "summary_large_image"
+  )
 
 ```
 
