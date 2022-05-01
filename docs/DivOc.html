@@ -2159,7 +2159,7 @@ Scripts
 <p>Este paquete te va a pedir instalar también <code>MuMIn</code>, <code>unmarked</code>, <code>reshape</code>, <code>lattice</code>, <code>Rcpp</code></p>
 <h1 id="cargar-los-datos--">2. Cargar los datos —-</h1>
 <h2 id="formato-de-los-datos">Formato de los datos</h2>
-<p>Son necesarios eventos de muestreo repetidos. Vamos a trabajar con una base de datos de 17 especies, 67 sitios (cámaras) y 16 eventos de muestreo.</p>
+<p>Son necesarios eventos de muestreo repetidos. Vamos a trabajar con una base de datos de 17 especies, 67 sitios (cámaras) y 19 eventos de muestreo.</p>
 <blockquote>
 <p><strong>Nota</strong>: Todas las especies deben tener una matriz de historias de detección de las mismas dimensiones</p>
 </blockquote>
@@ -9194,7 +9194,7 @@ Dpop_G
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>cam_diver</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DiversityOccupancy/man/diversityoccu.html'>diversityoccu</a></span><span class='op'>(</span>pres <span class='op'>=</span> <span class='va'>data</span>, <span class='co'># La matriz de datos</span>
      sitecov <span class='op'>=</span> <span class='va'>covars</span>, <span class='co'># Covariables de sitio</span>
      obscov <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='co'># no tenemos covariables de observación,</span>
-     spp <span class='op'>=</span> <span class='fl'>16</span>, <span class='co'># Número de especies</span>
+     spp <span class='op'>=</span> <span class='fl'>17</span>, <span class='co'># Número de especies</span>
      form <span class='op'>=</span> <span class='op'>~</span> <span class='va'>Effort</span> <span class='op'>+</span> <span class='va'>Slope</span> <span class='op'>~</span> <span class='va'>Dcrops</span>, <span class='co'># Formula del modelo p(), lambda()</span>
      dredge <span class='op'>=</span> <span class='cn'>FALSE</span> <span class='co'># En este primer ejemplo no usaremos AIC</span>
      <span class='op'>)</span>
@@ -9215,7 +9215,8 @@ Dpop_G
 [1] &quot;Species 13 ready!&quot;
 [1] &quot;Species 14 ready!&quot;
 [1] &quot;Species 15 ready!&quot;
-[1] &quot;Species 16 ready!&quot;</code></pre>
+[1] &quot;Species 16 ready!&quot;
+[1] &quot;Species 17 ready!&quot;</code></pre>
 </div>
 <p>Se va a generar un objeto lista con los modelos para cada una de las especies, cálculo de diversidad y otras cosas….</p>
 <h3 id="veamos-uno-de-los-modelos">Veamos uno de los modelos 🐺</h3>
@@ -9229,17 +9230,17 @@ Call:
 occuRN(formula = form, data = data2)
 
 Abundance:
-            Estimate    SE     z  P(&gt;|z|)
-(Intercept)   -1.643 0.322 -5.11 3.25e-07
-Dcrops        -0.483 0.311 -1.55 1.20e-01
+            Estimate    SE      z P(&gt;|z|)
+(Intercept)  -0.1543 0.278 -0.555   0.579
+Dcrops       -0.0306 0.190 -0.161   0.872
 
 Detection:
-            Estimate    SE      z P(&gt;|z|)
-(Intercept)   -0.540 0.376 -1.436 0.15091
-Effort        -1.919 0.576 -3.333 0.00086
-Slope          0.138 0.301  0.458 0.64725
+            Estimate    SE     z  P(&gt;|z|)
+(Intercept)   -2.835 0.339 -8.37 5.54e-17
+Effort         0.909 0.324  2.81 4.99e-03
+Slope         -0.596 0.216 -2.76 5.78e-03
 
-AIC: 190.8491 </code></pre>
+AIC: 317.6726 </code></pre>
 </div>
 <p>No sabemos si todas las especies responden de la misma manera a las covariables que usamos. Debemos escoger de todas las variables cual se ajusta mejor a cada especie</p>
 <p>¿Cómo vamos a generar todas las posibles combinaciones de modelos para cada especie?</p>
@@ -9269,17 +9270,17 @@ Call:
 occuRN(formula = form, data = data2)
 
 Abundance:
-            Estimate    SE     z  P(&gt;|z|)
-(Intercept)   -1.643 0.322 -5.11 3.25e-07
-Dcrops        -0.483 0.311 -1.55 1.20e-01
+            Estimate    SE      z P(&gt;|z|)
+(Intercept)  -0.1543 0.278 -0.555   0.579
+Dcrops       -0.0306 0.190 -0.161   0.872
 
 Detection:
-            Estimate    SE      z P(&gt;|z|)
-(Intercept)   -0.540 0.376 -1.436 0.15091
-Effort        -1.919 0.576 -3.333 0.00086
-Slope          0.138 0.301  0.458 0.64725
+            Estimate    SE     z  P(&gt;|z|)
+(Intercept)   -2.835 0.339 -8.37 5.54e-17
+Effort         0.909 0.324  2.81 4.99e-03
+Slope         -0.596 0.216 -2.76 5.78e-03
 
-AIC: 190.8491 </code></pre>
+AIC: 317.6726 </code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -9303,7 +9304,7 @@ Slope         -0.596 0.215 -2.77 5.58e-03
 AIC: 315.6987 </code></pre>
 </div>
 <h1 id="gráfico-de-predicción--">3.3 Gráfico de predicción —-</h1>
-<p>Veamos el resultado gráfico para la especie 3 🐗</p>
+<p>Veamos el resultado gráfico para la especie 3</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/DiversityOccupancy/man/responseplot.abund.html'>responseplot.abund</a></span><span class='op'>(</span> batch <span class='op'>=</span> <span class='va'>cam_diver_AIC</span>, <span class='co'># objeto creado con diversityoccu</span>
@@ -9569,7 +9570,7 @@ species.17
 0.7986634
 </td>
 <td style="text-align:right;">
-0.6344777
+0.6344764
 </td>
 <td style="text-align:right;">
 0.470707
@@ -9602,10 +9603,10 @@ species.17
 0.119418
 </td>
 <td style="text-align:right;">
-11.43433
+11.42479
 </td>
 <td style="text-align:right;">
-0.2379503
+0.237951
 </td>
 </tr>
 <tr>
@@ -9622,7 +9623,7 @@ species.17
 0.7986634
 </td>
 <td style="text-align:right;">
-0.6344777
+0.6344764
 </td>
 <td style="text-align:right;">
 0.470707
@@ -9655,10 +9656,10 @@ species.17
 0.119418
 </td>
 <td style="text-align:right;">
-11.43433
+11.42479
 </td>
 <td style="text-align:right;">
-0.2379503
+0.237951
 </td>
 </tr>
 <tr>
@@ -9675,7 +9676,7 @@ species.17
 0.7986634
 </td>
 <td style="text-align:right;">
-0.6344777
+0.6344764
 </td>
 <td style="text-align:right;">
 0.470707
@@ -9708,10 +9709,10 @@ species.17
 0.119418
 </td>
 <td style="text-align:right;">
-11.43433
+11.42479
 </td>
 <td style="text-align:right;">
-0.2379503
+0.237951
 </td>
 </tr>
 <tr>
@@ -9728,7 +9729,7 @@ species.17
 0.7986634
 </td>
 <td style="text-align:right;">
-0.6344777
+0.6344764
 </td>
 <td style="text-align:right;">
 0.470707
@@ -9761,10 +9762,10 @@ species.17
 0.119418
 </td>
 <td style="text-align:right;">
-11.43433
+11.42479
 </td>
 <td style="text-align:right;">
-0.2379503
+0.237951
 </td>
 </tr>
 <tr>
@@ -9781,7 +9782,7 @@ species.17
 0.7986634
 </td>
 <td style="text-align:right;">
-0.6344777
+0.6344764
 </td>
 <td style="text-align:right;">
 0.470707
@@ -9814,10 +9815,10 @@ species.17
 0.119418
 </td>
 <td style="text-align:right;">
-11.43433
+11.42479
 </td>
 <td style="text-align:right;">
-0.2379503
+0.237951
 </td>
 </tr>
 <tr>
@@ -9834,7 +9835,7 @@ species.17
 0.7986634
 </td>
 <td style="text-align:right;">
-0.6344777
+0.6344764
 </td>
 <td style="text-align:right;">
 0.470707
@@ -9867,10 +9868,10 @@ species.17
 0.119418
 </td>
 <td style="text-align:right;">
-11.43433
+11.42479
 </td>
 <td style="text-align:right;">
-0.2379503
+0.237951
 </td>
 </tr>
 </tbody>
@@ -9936,10 +9937,10 @@ Dpop_G
 17
 </td>
 <td style="text-align:right;">
-7.289319
+7.290641
 </td>
 <td style="text-align:right;">
-5.282369
+5.283733
 </td>
 <td style="text-align:right;">
 -0.4744602
@@ -9965,10 +9966,10 @@ Dpop_G
 17
 </td>
 <td style="text-align:right;">
-7.475290
+7.476420
 </td>
 <td style="text-align:right;">
-5.686556
+5.687832
 </td>
 <td style="text-align:right;">
 0.6519157
@@ -9994,10 +9995,10 @@ Dpop_G
 17
 </td>
 <td style="text-align:right;">
-7.067675
+7.068294
 </td>
 <td style="text-align:right;">
-5.417599
+5.418051
 </td>
 <td style="text-align:right;">
 -0.9243340
@@ -10023,10 +10024,10 @@ Dpop_G
 17
 </td>
 <td style="text-align:right;">
-7.202937
+7.204272
 </td>
 <td style="text-align:right;">
-5.171999
+5.173335
 </td>
 <td style="text-align:right;">
 -0.9243340
@@ -10052,10 +10053,10 @@ Dpop_G
 17
 </td>
 <td style="text-align:right;">
-7.447582
+7.448817
 </td>
 <td style="text-align:right;">
-5.557032
+5.558398
 </td>
 <td style="text-align:right;">
 -1.1509622
@@ -10081,10 +10082,10 @@ Dpop_G
 17
 </td>
 <td style="text-align:right;">
-7.341428
+7.342298
 </td>
 <td style="text-align:right;">
-5.685354
+5.686248
 </td>
 <td style="text-align:right;">
 0.6519157

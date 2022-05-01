@@ -45,7 +45,7 @@ Este paquete te va a pedir instalar también `MuMIn`, `unmarked`, `reshape`, `la
 
 ## Formato de los datos
 
-Son necesarios eventos de muestreo repetidos. Vamos a trabajar con una base de datos de 17 especies, 67 sitios (cámaras) y 16 eventos de muestreo.
+Son necesarios eventos de muestreo repetidos. Vamos a trabajar con una base de datos de 17 especies, 67 sitios (cámaras) y 19 eventos de muestreo.
 
 > **Nota**: Todas las especies deben tener una matriz de historias de detección de las mismas dimensiones
 
@@ -132,7 +132,7 @@ Vamos a utilizar la función `diversityoccu()`. Se genera un objeto lista con lo
 cam_diver <- diversityoccu(pres = data, # La matriz de datos
      sitecov = covars, # Covariables de sitio
      obscov = NULL, # no tenemos covariables de observación,
-     spp = 16, # Número de especies
+     spp = 17, # Número de especies
      form = ~ Effort + Slope ~ Dcrops, # Formula del modelo p(), lambda()
      dredge = FALSE # En este primer ejemplo no usaremos AIC
      )
@@ -184,7 +184,7 @@ cam_diver_AIC$models[[9]]
 
 # 3.3 Gráfico de predicción ----
 
-Veamos el resultado gráfico para la especie 3 🐗
+Veamos el resultado gráfico para la especie 3 
 
 ```{r}
 (responseplot.abund( batch = cam_diver_AIC, # objeto creado con diversityoccu

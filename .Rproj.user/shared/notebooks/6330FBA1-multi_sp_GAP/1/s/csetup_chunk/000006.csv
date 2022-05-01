@@ -1,4 +1,7 @@
 "0","library(knitr)"
+"2","Warning:"
+"2"," package ‘knitr’ was built under R version 4.1.3
+"
 "0","library(tidyverse)"
 "0","library(icon)"
 "0","library(emo)"
@@ -7,12 +10,6 @@
 "0","library(hillR)"
 "0","library(ggeffects)"
 "0","library(DiversityOccupancy)"
-"2","Loading required package: MuMIn
-"
-"2","Loading required package: unmarked
-"
-"2","Loading required package: lattice
-"
 "0","library(camtrapR)"
 "0","library(xaringanExtra)"
 "0",""

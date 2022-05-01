@@ -200,14 +200,22 @@ Este paquete te va a pedir instalar también `MuMIn`, `unmarked`, `reshape`, `la
 Son necesarios eventos de muestreo repetidos. 
 <br>
 
-Vamos a trabajar con una base de datos de 17 especies, 67 sitios (cámaras) y 16 eventos de muestreo.
+Vamos a trabajar con una base de datos de 17 especies, 67 sitios (cámaras) y 19 eventos de muestreo.
 
 > **Nota**: Todas las especies deben tener una matriz de historias de detección de las mismas dimensiones
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 # Cargamos la tabla de registros de las especies
 registers <-  read.csv("Data/Survey/recordTable_OC.csv")
 table(registers$Species)
+
+
+
+```
+---
+
+```{r message=FALSE, warning=FALSE}
+
 
 # Cargamos la tabla de operación de cámaras
 CToperation <-  read.csv("Data/Survey/CTtable_OC.csv") 
@@ -224,7 +232,8 @@ camop <- cameraOperation(CTtable= CToperation, # Tabla de operación
 ```
 
 ---
-```{r}
+
+```{r message=FALSE, warning=FALSE}
 # Función para generar las historias de detección para todas las especies seleccionadas
 
 DetHist_list <- lapply(unique(registers$Species), FUN = function(x) {
@@ -257,15 +266,13 @@ data <- ylist %>% # Lista con los datos
   reduce(cbind) # Unimos las historias de captura en un solo dataframe
 ```
 
-
-
 ---
 .center[## Formato de los datos]
 
-Obtenemos una matriz con el mismo número de sitios **67** y *19* eventos X *19* especies = 323 columnas 
+Obtenemos una matriz con el mismo número de sitios **67** y *19* eventos X *17* especies = 323 columnas 
 
 ```{r echo=FALSE}
-DT::datatable(head(data))
+DT::datatable(data)
 ```
 ---
 # Cargar las covariables
@@ -299,7 +306,7 @@ Se genera un objeto lista con los modelos para cada una de las especies, cálcul
 cam_diver <- diversityoccu(pres = data, # La matriz de datos
      sitecov = covars, # Covariables de sitio
      obscov = NULL, # no tenemos covariables de observación,
-     spp = 16, # Número de especies
+     spp = 17, # Número de especies
      form = ~ Effort + Slope ~ Dcrops, # Formula del modelo p(), lambda()
      dredge = FALSE # En este primer ejemplo no usaremos AIC
      )

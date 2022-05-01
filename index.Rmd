@@ -22,7 +22,7 @@ knitr::opts_chunk$set(echo = FALSE)
 ## Bienvenidos 🙌
 
 ![](img/divers.jpg)
-> Forest -Earth Series de Alice Shirley]
+> Forest -Earth Series de Alice Shirley
 
 En esta página encontrarán las presentaciones y los scripts para los ejercicios de modelos de ocupación de comunidades.
 
